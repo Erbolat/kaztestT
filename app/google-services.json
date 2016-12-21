@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "439825062370",
+    "firebase_url": "https://kaztest-151406.firebaseio.com",
+    "project_id": "kaztest-151406",
+    "storage_bucket": "kaztest-151406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439825062370:android:cc0ef640c97b87b0",
+        "android_client_info": {
+          "package_name": "kz.drw.kaztest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439825062370-ootcrk9e9ljhd0l90c8f94hs3om854di.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.drw.kaztest",
+            "certificate_hash": "8DFA4B65D21CCC18C121E84C31D8D50474348EBE"
+          }
+        },
+        {
+          "client_id": "439825062370-b05jmajmubg95hd0t92uh7lk98jg44st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.drw.kaztest",
+            "certificate_hash": "F7B7033DC55B2CBB2C4E6C5A2BC1B40D91E6038D"
+          }
+        },
+        {
+          "client_id": "439825062370-mlkh5onnaq9e0e8ghnq1on11g7siu9le.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcjvSFhEdMs7A-sO0mSnyq7Djpt1PpMQ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439825062370-mlkh5onnaq9e0e8ghnq1on11g7siu9le.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,155 @@
+<resources>
+    <string name="app_name">KazTest</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Интерфейс тілі</string>
+    <string name="tests">Тестілеу</string>
+    <string name="regular">Ережелер</string>
+    <string name="info">KazTest туралы</string>
+
+    <string name="success">Cәтті!</string>
+    <string name="error">Қате!</string>
+    <string name="wait">Күтіңіз..</string>
+    <string name="registr">Тіркелу</string>
+    <string name="registration">Тіркелу</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Аты</string>
+    <string name="patron">Әкесінің аты</string>
+    <string name="birthdate">Туған күні</string>
+    <string name="city">Қала</string>
+    <string name="school">Мектеп</string>
+    <string name="sex">Жынысы</string>
+    <string name="man">Ер</string>
+    <string name="women">Әйел</string>
+    <string name="numberPhone">Телефон нөмірі</string>
+    <string name="password">Пароль</string>
+    <string name="textAgree">Мен келісімді тіркелу мақсатында оқыдым және қабыл етемін </string>
+
+    <string name="enter">Кіру</string>
+    <string name="exit">Шығу</string>
+    <string name="forgetPass">Парольді ұмыттыңыз ба?</string>
+    <string name="repairPass">Парольді алу</string>
+    <string name="errorLoginOrPass">Нөмір немесе пароль қате</string>
+
+    <string name="save">Сақтау</string>
+    <string name="changePass">Парольді өзгерту</string>
+    <string name="fill">Толтыру</string>
+    <string name="gosTest">Мемлекеттік тестілеу</string>
+    <string name="gosTest2">Мем.тест</string>
+    <string name="entTest">ҰБТ</string>
+    <string name="pddTest">ЖҚЕ</string>
+    <string name="training">Жаттығу</string>
+    <string name="question">Сұрақ</string>
+    <string name="result">Нәтиже</string>
+    <string name="finishTest">Тест аяқталды</string>
+    <string name="yourResult">С І З Д І Ң  Н Ә Т И Ж Е</string>
+    <string name="poindOf">балл </string>
+    <string name="languageOfTest">Тестілеу тілі:</string>
+    <string name="startTime">Басталған уақыт:</string>
+    <string name="finishTime">Жұмсалған уақыт:</string>
+    <string name="exitTest">Тестілеуден шығу</string>
+
+//
+    <string name="unregisterNumberPhone">Қате! Тіркелмеген нөмір</string>
+    <string name="userBlocked">Қолданушы бұғатталған</string>
+    <string name="errorNumberPhone">Телефон нөмірі қате</string>
+    <string name="fillPass">Парольді енгізіңіз</string>
+    <string name="fillNumberPhone">Телефон нөмірін толтырыңыз</string>
+    <string name="wrongNumberPhone">Телефон нөмірінде қателік</string>
+    <string name="SMS">Сәтті! Телефон нөміріңізге SMS келуін күтіңіз</string>
+    <string name="setCity">Бірінші қаланы таңдаңыз"</string>
+    <string name="errorAgreement">Келісім расталмады</string>
+    <string name="selectSchool">Мектеп таңдаңыз</string>
+    <string name="selectSex">Жыныс таңдаңыз</string>
+    <string name="setCity2">Қала таңдаңыз</string>
+    <string name="setYear">Жылды теріңіз</string>
+    <string name="setMonth">Айды теріңіз</string>
+    <string name="setDay">Күнді теріңіз</string>
+    <string name="setPatron">Әкесінің аты формасын жазыңыз</string>
+    <string name="setName">"Есіміңізді жазыңыз"</string>
+    <string name="setSurname">Тегіңізді жазыңыз</string>
+    <string name="wrongPass">Пароль қате</string>
+    <string name="setNameSurname">Есіміңіз бен тегіңізді жазыңыз</string>
+    <string name="errorSelectSex">Жыныс таңдалмады</string>
+    <string name="errorSelectCity">Қала таңдалмады</string>
+    <string name="fillFIO">Аты-жөніңізді толтырыңыз</string>
+    <string name="errorCorrectPass">Пароль сәйкес келмеді</string>
+    <string name="fillEmpty">Бос орындарды толтырыңыз</string>
+
+///
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setBirth">Туған күніңізді жазыңыз</string>
+    <string name="pro1">Бағдарлама 1</string>
+    <string name="pro2">Бағдарлама 2</string>
+    <string name="pro3">Бағдарлама 3</string>
+    <string name="corpusA">А корпусы</string>
+    <string name="corpusB">Б корпусы</string>
+
+    <string-array name="priceProg1">
+        <item>Заңдардың саны: 9 заң</item>
+        <item>Санаты: А-1,А-2,А-3,А-4,В-1,В-2,В-3,В-4,С-1,С-2,С-3,С-О-1, С-О-2,С-R-1,D-1,D-2,D-3,D-O-1,D-O-2,E-1,E-2</item>
+        <item>Сұрақтардың жалпы саны: 135 сұрақ</item>
+        <item>Тесттен өтудің төменгі балы: 95 балл</item>
+        <item>Тестті тапсыруга берілетін уақыт: 1 сағ,50 мин</item>
+        <item>Тестті тапсыру құны: 25 теңге</item>
+    </string-array>
+
+    <string-array name="priceProg2">
+        <item>Заңдардың саны: 8 заң</item>
+        <item>Санаты: B-5,C-4,C-5,C-O-3,C-O-4,C-O-5,C-O-6,C-R-2,C-R- 3, C-R-4,D-4,D-5,D-O-3,D-O-4,D-O-5,D-O-6,E-3,E-R-1, E-R-2,E-R-3,E-G-1,E-G-2</item>
+        <item>Сұрақтардың жалпы саны: 120 сұрақ</item>
+        <item>Тесттен өтудің төменгі балы: 72 балл</item>
+        <item>Тестті тапсыруга берілетін уақыт: 1 сағат,40 минут</item>
+        <item>Тестті тапсыру құны: 15 теңге</item>
+    </string-array>
+
+    <string-array name="priceProg3">
+        <item>Заңдардың саны: 6 заң</item>
+        <item>Санаты: C-R-5,E-4,E-5,E-R-4,E-R-5,E-G-3,E-G-4</item>
+        <item>Сұрақтардың жалпы саны: 90 сұрақ</item>
+        <item>Тесттен өтудің төменгі балы: 45 балл</item>
+        <item>Тестті тапсыруга берілетін уақыт: 1сағ,20 минут</item>
+        <item>Тестті тапсыру құны: 10 теңге</item>
+    </string-array>
+
+    <string name="laws">Барлық заңдар: </string>
+    <string name="lang">Тіл</string>
+    <string name="female">әйел</string>
+    <string name="male">ер</string>
+    <string name="users">Қолданушылар</string>
+    <string name="ball">Балл</string>
+    <string name="time">Уақыт</string>
+    <string name="you">Сіз</string>
+    <string name="youAreNot" >Сіз рейтингте жоқсыз</string>
+    <string name="agree">Ия</string>
+    <string name="notAgree">Жоқ</string>
+    <string name="startTest">Бастау</string>
+    <string-array name="profileStr">
+        <item>Мәліметтер</item>
+        <item>Нәтижелер</item>
+    </string-array>
+    <string name="isDeveloped">Бұл бөлімде жобалау жұмыстары жүргізілуде</string>
+    <string name="isNotAuthorization">Сіз әлі кірмедіңіз</string>
+    <string name="isNotLeveled">Бұл деңгейді жетпедіңіз</string>
+    <string name="NoData">Мәліметтер жоқ</string>
+    <string name="alertTraining">Назар аударыңыз! Сұраққа дұрыс жауап берілмеген осы деңгейді қайта өтуіңізге тура келеді</string>
+    <string name="connectInet">Интернетті қосыңыз</string>
+    <string name="isNotAnswered">Сіз әлі жауап бермедіңіз</string>
+    <string name="isFailTraining">Сіз бұл деңгейден өте алмадыңыз</string>
+    <string name="program">Бағдарлама:</string>
+    <string name="isNotSelected">Таңдалмады</string>
+    <string name="level">деңгей</string>
+    <string name="mypass">Қазіргі парольді енгізіңіз:</string>
+    <string name="newpass">Жаңа парольді енгізіңіз:</string>
+    <string name="repass">Жаңа парольді растаңыз:</string>
+    <string name="emptyList">Бос тізім</string>
+    <string name="tryAgain">Қайта байқап көріңіз</string>
+    <string name="isGoodTraining">Құттықтаймыз! Сіз бұл деңгейден өттіңіз</string>
+    <string name="congrulations">Құттықтаймыз!</string>
+    <string name="porog">Өкінішке орай, Сіз тесттен өтудің төменгі балын жинай алмадыңыз</string>
+    <string name="porogTrue">Құттықтаймыз, Сіз тесттен өтудің төменгі балын жинай алдыңыз</string>
+    <string name="cancel">Болдырмау</string>
+</resources>

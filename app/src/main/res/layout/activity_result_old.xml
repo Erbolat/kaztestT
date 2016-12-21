@@ -1,0 +1,195 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:id="@+id/layyt"
+        android:elevation="2dp"
+
+        >
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/back"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/backbtn"
+            android:layout_marginTop="4dp"
+            android:padding="6dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerInside"
+            android:background="@color/colorPrimary"
+            android:onClick="onExit" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Edit1"
+            android:layout_marginLeft="5dp"
+            android:textColor="#ffffffff"
+            android:textSize="19sp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="Результат" />
+
+
+    </LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:id="@+id/tvTestName"
+            android:text="Тест закончен"
+            android:textStyle="normal|bold" />
+
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:background="@drawable/border">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="В А Ш   Р Е З У Л Ь Т А Т"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:layout_marginTop="10dp"
+                android:textSize="80sp"
+                android:textStyle="bold"
+                android:id="@+id/tvSumma"
+                android:textAlignment="center"
+                android:textColor="#000" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="баллов из"
+                android:textSize="16sp"
+                android:layout_marginLeft="6dp"
+                android:textAlignment="center"
+                android:textColor="#000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvFullCount"
+                android:textSize="16sp"
+                android:layout_marginLeft="6dp"
+                android:textAlignment="center"
+                android:textColor="#000" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Язык тестирования: казахский"
+            android:textSize="16sp"
+            android:layout_marginLeft="6dp"
+            android:textColor="#000" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:text="Начало теста: 24.12.2016 00:00"
+            android:textSize="16sp"
+            android:layout_marginLeft="6dp"
+            android:textColor="#000" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Окончание теста: 24.12.2016 10:00"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:layout_marginLeft="6dp"
+            android:textColor="#000" />
+<it.sephiroth.android.library.widget.HListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:id="@+id/list"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layAnswer"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+
+                android:text="Ваш ответ:"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="С"
+                android:textSize="16dp"
+                android:textColor="#000"
+                android:id="@+id/tvMyAnswer"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Правильный ответ:"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="D"
+                android:textColor="#000"
+                android:textSize="16dp"
+                android:id="@+id/tvAnswer"/>
+
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnExit"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:text="Выйти из теста"/>
+    </LinearLayout>
+
+
+
+</ScrollView>
+    </LinearLayout>

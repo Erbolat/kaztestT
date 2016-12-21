@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">KazTest</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Язык интерфейса</string>
+    <string name="tests">Тесты</string>
+    <string name="regular">Правила</string>
+    <string name="info">О KazTest</string>
+
+    <string name="success">Удачно!</string>
+    <string name="error">Ошибка!</string>
+    <string name="wait">Подождите..</string>
+    <string name="registr">Регистрация</string>
+    <string name="registration">Зарегистрироваться</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="patron">Отчество</string>
+    <string name="birthdate">Дата рождения</string>
+    <string name="city">Город</string>
+    <string name="school">Школа</string>
+    <string name="sex">Пол</string>
+    <string name="man">Мужчина</string>
+    <string name="women">Женщина</string>
+    <string name="numberPhone">Номер телефона</string>
+    <string name="password">Пароль</string>
+    <string name="textAgree">Я читал и принимаю соглашение при регистрации</string>
+
+    <string name="enter">Войти</string>
+    <string name="exit">Выход</string>
+    <string name="cancel">Отмена</string>
+    <string name="forgetPass">Забыли пароль?</string>
+    <string name="repairPass">Восстановить пароль</string>
+    <string name="errorLoginOrPass">Неверный номер или пароль</string>
+
+
+    //
+    <string name="unregisterNumberPhone">Ошибка! Не зарегистрированный номер</string>
+    <string name="userBlocked">Пользователь заблокирован</string>
+    <string name="errorNumberPhone">Неправильный номер телефона</string>
+    <string name="fillPass">Заполните пароль</string>
+    <string name="fillNumberPhone">Заполните форму номер телефона</string>
+    <string name="wrongNumberPhone">Неправильный номер телефона</string>
+    <string name="SMS">Успешно! Ожидайте SMS на Ваш номер</string>
+    <string name="setCity">Сперва выберите город"</string>
+    <string name="errorAgreement">Соглашение не было</string>
+    <string name="selectSchool">Выберите школу</string>
+    <string name="selectSex">Выберите пол</string>
+    <string name="setCity2">Выберите город</string>
+    <string name="setYear">Введите год</string>
+    <string name="setMonth">Введите месяц</string>
+    <string name="setDay">Введите день</string>
+    <string name="setPatron">Введите отчество</string>
+    <string name="setName">"Введите имя"</string>
+    <string name="setSurname">Введите Фамилия</string>
+    <string name="wrongPass">Неверный пароль</string>
+    <string name="setNameSurname">Введите Имя и Фамилию</string>
+    <string name="errorSelectSex">Пол не выбрано</string>
+    <string name="errorSelectCity">Город не выбрано</string>
+    <string name="fillFIO">Заполните ФИО</string>
+    <string name="errorCorrectPass">Пароли не совпадают</string>
+    <string name="fillEmpty">Заполните пустое поле</string>
+
+
+    //
+
+    <string name="save">Сохранить</string>
+    <string name="changePass">Изменить пароль</string>
+    <string name="fill">Пополнить</string>
+    <string name="gosTest">Гос. тестирование</string>
+    <string name="gosTest2">Гос.тест</string>
+    <string name="entTest">ЕНТ</string>
+    <string name="pddTest">ПДД</string>
+    <string name="training">Тренировка</string>
+    <string name="question">Вопрос</string>
+    <string name="result">Результат</string>
+    <string name="finishTest">Тест закончен</string>
+    <string name="yourResult">В А Ш  Р Е З У Л Ь Т А Т</string>
+    <string name="poindOf">баллов из</string>
+    <string name="languageOfTest">Язык тестирования:</string>
+    <string name="startTime">Дата: </string>
+    <string name="finishTime">Потраченное время:</string>
+    <string name="exitTest">Выйти из теста</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setBirth">Заполните день рождения</string>
+    <string name="pro1">Программа 1</string>
+    <string name="pro2">Программа 2</string>
+    <string name="pro3">Программа 3</string>
+    <string name="corpusA">Корпус А</string>
+    <string name="corpusB">Корпус Б</string>
+
+    <string name="laws">Итого законов: </string>
+    <string name="lang">Язык</string>
+    <string name="female">жен</string>
+    <string name="male">муж</string>
+    <string name="users">Пользователи</string>
+    <string name="ball">Баллы</string>
+    <string name="time">Время</string>
+    <string name="you">Вы</string>
+    <string name="youAreNot">Вас нет в рейтинге</string>
+    <string name="agree">Да</string>
+    <string name="notAgree">Нет</string>
+    <string name="startTest">Начать</string>
+    <string-array name="priceProg1">
+        <item>Программа: №1 </item>
+        <item>Категория: А-1,А-2,А-3,А-4,В-1,В-2,В-3,В-4,С-1,С-2,С-3,С-О-1,С-О-2,С-R-1,D-1,D-2,D-3,D-O-1,D-O-2,E-1,E-2</item>
+        <item>Количество законов: 9 законов</item>
+        <item>Общее количество вопросов: 135 вопросов</item>
+        <item>Минимальный балл для прохождение теста: 95 балл</item>
+        <item>Время для прохождения теста:  1час, 50 минут  </item>
+        <item>Стоимость теста: 25 тенге</item>
+    </string-array>
+    <string-array name="priceProg2">
+        <item> Программа: №2 </item>
+        <item>Категория: B-5,C-4,C-5,C-O-3,C-O-4,C-O-5,C-O-6,C-R-2,C-R-3,C-R-4,D-4,D-5,D-O-3,D-O-4,D-O-5,D-O-6,E-3,E-R-1, E-R-2,E-R-3,E-G-1,E-G-2</item>
+        <item>Количество законов: 8 законов</item>
+        <item>Общее количество вопросов: 120 вопросов</item>
+        <item>Минимальный балл для прохождение теста:  72 балл</item>
+        <item>Время для прохождения теста:  1час, 40 минут</item>
+        <item>Стоимость теста: 15 тенге</item>
+    </string-array>
+    <string-array name="priceProg3">
+        <item>Программа: №3 </item>
+        <item>Категория: C-R-5,E-4,E-5,E-R-4,E-R-5,E-G-3,E-G-4</item>
+        <item>Количество законов: 6 законов</item>
+        <item>Общее количество вопросов: 90 вопросов </item>
+        <item>Минимальный балл для прохождение теста: 45 балл</item>
+        <item>Время для прохождения теста: 1час, 20 минут</item>
+        <item>Стоимость теста: 10 тенге</item>
+    </string-array>
+
+
+    <string-array name="profileStr">
+        <item>Мои данные</item>
+        <item>Результаты</item>
+    </string-array>
+    <string name="isDeveloped">Данный раздел пока еще в разработке</string>
+    <string name="isNotAuthorization">Вы еще не авторизованы</string>
+    <string name="NoData">Нет данных</string>
+    <string name="alertTraining">Внимание! При неправильном ответе на вопрос, придется пройти данный уровень заново</string>
+    <string name="connectInet">Подключите интернет</string>
+    <string name="isNotAnswered">Вы еще не ответили</string>
+    <string name="isFailTraining">Вы не прошли этот уровень</string>
+    <string name="isGoodTraining">Поздравляю! Вы прошли этот уровень</string>
+    <string name="program">Программа:</string>
+    <string name="isNotLeveled">Вы не достигли этого уровня</string>
+    <string name="isNotSelected">Не выбрано</string>
+    <string name="level">уровень</string>
+    <string name="mypass">Текущий пароль:</string>
+    <string name="newpass">Новый пароль:</string>
+    <string name="repass">Повторите новый пароль:</string>
+    <string name="emptyList">Список пуст</string>
+    <string name="tryAgain">Попробуйте снова</string>
+    <string name="congrulations">Поздравляю!</string>
+    <string name="porogTrue">Поздравляем, Вы набрали проходной балл</string>
+    <string name="porog">К сожалению, Вы не набрали проходной балл</string>
+
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3e6e9e</color>
+    <color name="colorPrimaryDark">#2e4c69</color>
+    <color name="colorAccent">#ef6b78</color>
+    <color name="colorWhite">#fff</color>
+    <color name="colorWhiter">#87d1cece</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorOrange">#d4af48</color>
+    <color name="colorBlue">#2dc2ae</color>
+    <color name="colorRed2">#8c0749</color>
+    <color name="colorWhite2">#00ffffff</color>
+    <color name="colorGreen">#67ed82</color>
+    <color name="colorerWhite" >#73ffffff</color>
+
+
+
+    <color name="crop__button_bar">#f3f3f3</color>
+    <color name="crop__button_text">#666666</color>
+    <color name="crop__selector_pressed">#1a000000</color>
+    <color name="crop__selector_focused">#77000000</color>
+    <color name="primary_text_default_material_dark">#fff</color>
+    <color name="primary_text_material_dark">#020202</color>
+    <color name="secondary_text_material_dark">#000000</color>
+    <color name="foreground_material_dark">#000000</color>
+    <color name="primary_text_material_light">#000000</color>
+    <color name="secondary_text_material_light">#040404</color>
+</resources>

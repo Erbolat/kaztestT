@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/rel"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:background="#e2dfdf"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:text="Рейтинг"
+        android:id="@+id/tvMonYear" />
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="№ "
+            android:textAlignment="center"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_weight="2"
+            android:text="@string/users"
+            android:fontFamily="sans-serif"
+            android:paddingRight="4dp"
+            android:textSize="15sp"
+             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:text="@string/ball"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:gravity="end"
+            android:paddingRight="4dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:lines="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_gravity="center_horizontal"
+            android:gravity="end"
+            android:text="@string/time"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:paddingRight="4dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:paddingTop="6dp"
+        android:paddingRight="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:id="@+id/layMyRating"
+        android:paddingBottom="6dp"
+        android:background="@drawable/border_red_test"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="№ "
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:id="@+id/tvID"
+            android:textColor="@color/colorWhite" />
+
+    <kz.drw.kaztest.utils.CircleImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/imgMyAva"
+        android:layout_marginLeft="8dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_weight="2"
+            android:fontFamily="sans-serif"
+            android:paddingRight="4dp"
+            android:textSize="12dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:id="@+id/tvName"
+            android:textColor="@color/colorWhite"
+            android:paddingLeft="6dp" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="3"
+            android:fontFamily="sans-serif"
+
+            android:textSize="12dp"
+            android:textColor="@color/colorWhite"
+            android:paddingRight="6dp"
+            android:id="@+id/tvBall" />
+        <TextView
+            android:layout_width="match_parent"
+            android:lines="1"
+            android:paddingLeft="4dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif"
+            android:textSize="12dp"
+            android:id="@+id/tvTimes"
+            android:paddingRight="4dp" />
+    </LinearLayout>
+    <ListView
+        android:paddingLeft="4dp"
+        android:paddingRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        android:divider="@null"
+        android:id="@+id/list1"
+        android:layout_weight="0.63"
+        android:layout_marginBottom="90dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="-88dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="6dp"
+            android:src="@drawable/le"
+            android:id="@+id/Back"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:textColor="#000"
+            android:layout_weight="1"
+            android:id="@+id/Number"
+            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ri"
+            android:padding="6dp"
+            android:id="@+id/Next"/>
+
+    </LinearLayout>
+
+</LinearLayout>
