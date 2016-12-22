@@ -109,7 +109,7 @@ public class History extends Fragment {
         private LayoutInflater inflater;
         List<FeedItem> arrList;
         String[] d2;
-        TextView tvKorpus, tvPoint, tvDate;
+        TextView tvKorpus, tvPoint, tvDate, tvCountAll;
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         int count;
         public ListAdapter(Activity activity, List<FeedItem> arrList) {
@@ -145,6 +145,7 @@ public class History extends Fragment {
             tvDate = (TextView) convertView.findViewById(R.id.tvDate);
             tvKorpus = (TextView) convertView.findViewById(R.id.tvKorpus);
             tvPoint = (TextView) convertView.findViewById(R.id.tvPoint);
+            tvCountAll = (TextView) convertView.findViewById(R.id.tvCountAll);
             item = arrList.get(position);
             if(!item.getDate().equals("")) {
                 String[] date = item.getDate().split(" ");
@@ -159,7 +160,10 @@ public class History extends Fragment {
                 else  tvDate.setText("");
              myCorpus = item.getKorpus();
             if(myCorpus.equals("B")) myCorpus="Б";
-            if(myCorpus.equals("Б")) {
+            if(myCorpus.equals("Рейтинг")) {
+                    tvKorpus.setText(myCorpus);
+            }
+            else if(myCorpus.equals("Б")) {
                 if(!Constants.kaztestLang)
                 tvKorpus.setText("Корпус: " + myCorpus + ", " + activity.getResources().getString(R.string.program) + " " + item.getProgram());
                 else tvKorpus.setText(myCorpus+" корпусы" + ", " + activity.getResources().getString(R.string.program) + " " + item.getProgram());
@@ -168,6 +172,9 @@ public class History extends Fragment {
             else tvKorpus.setText(myCorpus+" корпусы");
 //            tvPoint.setText(item.getRightcol()+" / "+item.getCol()+" балл");
             tvPoint.setText(item.getRightcol()+"");
+            if(!Constants.kaztestLang)
+                tvCountAll.setText("баллов из "+item.getCol()+" вопросов");
+            else  tvCountAll.setText("балл "+item.getCol()+" cұрақтан");
 
 
 

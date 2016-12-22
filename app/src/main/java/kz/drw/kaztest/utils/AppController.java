@@ -65,7 +65,6 @@ public class AppController extends Application {
 		MainActivity.isChanged=true;
 		SharedPreferences sharedpreferences = context.getSharedPreferences("lang", Context.MODE_PRIVATE);
 		if(sharedpreferences.getString("language","")!=null) {
-			Log.e("RRRRR", sharedpreferences.getString("language", ""));
 			if(sharedpreferences.getString("language","").equals("true")) Constants.language="kk";
 			else Constants.language="ru";
 		}
@@ -74,7 +73,9 @@ public class AppController extends Application {
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
-		context.getApplicationContext().getResources().updateConfiguration(config, null);
+		Locale.setDefault(locale);
+		context.getResources().updateConfiguration(config,
+		context.getResources().getDisplayMetrics());
 
 	}
 	public LruBitmapCache getLruBitmapCache() {
