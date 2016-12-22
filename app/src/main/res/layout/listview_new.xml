@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
     android:layout_height="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
@@ -37,12 +39,13 @@
             android:id="@+id/tvLawCount"
             android:textColor="@color/colorAccent"/>
     </LinearLayout>
-    <ListView
+    <kz.drw.kaztest.utils.ListViewMaxHeight
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_below="@+id/layCorpusA"
         android:divider="@null"
+        app:maxHeight="320dp"
         android:id="@+id/list1"/>
     <android.support.design.widget.FloatingActionButton
         android:layout_width="50dp"

@@ -1,10 +1,12 @@
 package kz.drw.kaztest;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,22 +48,18 @@ import kz.drw.kaztest.utils.Constants;
 public class Levels extends Fragment {
 
     View view;
-   public static String LevelLawID="";
-    Button btn1;
-    FrameLayout fr1;
-    int mylvl;
+    public static String LevelLawID="";
+    public  static  int mylvl;
     int count=1;
     ListView list;
+    public static DialogInfo2 dlgInf;
     public static Integer[] drFull = new Integer[]{R.drawable.roundedbtn_full,R.drawable.roundedbtn_green2,R.drawable.roundedbtn_black4,R.drawable.roundedbtn_yellow3,R.drawable.roundedbtn_blue5} ;
     public static Integer[] drEmpty = new Integer[]{R.drawable.roundedbtn_empty,R.drawable.roundedbtn_empty2,R.drawable.roundedbtn_empty4,R.drawable.roundedbtn_empty3,R.drawable.roundedbtn_empty5} ;
     public Levels() {
     }
-
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-
         view =  inflater.inflate(R.layout.listview, container, false);
         list = (ListView) view.findViewById(R.id.list1);
         Bundle bundle = getArguments();
@@ -67,8 +67,6 @@ public class Levels extends Fragment {
             LevelLawID = getArguments().getString("id");
             GetLEVEL();
         }
-
-
         return  view;
     }
 
@@ -95,15 +93,12 @@ public class Levels extends Fragment {
                                  count = integ+rest;
                                 }
                                 else count=1;
-
                                 ListAdapter listAdapter = new ListAdapter((AppCompatActivity) getActivity(), count);
                                 list.setAdapter(listAdapter);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -194,7 +189,11 @@ public class Levels extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if(position+1<=mylvl)
-                    OpenTest(position+1);
+                    {
+                        dlgInf = new DialogInfo2(position+1);
+                        dlgInf.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+                        dlgInf.show(getActivity().getSupportFragmentManager(), "dlg1");
+                    }
                     else Toast.makeText(activity.getApplicationContext(), getResources().getString(R.string.isNotLeveled), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -205,7 +204,11 @@ public class Levels extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if(position+1<=mylvl)
-                    OpenTest(position+1);
+                    {
+                        dlgInf = new DialogInfo2(position+1);
+                        dlgInf.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+                        dlgInf.show(getActivity().getSupportFragmentManager(), "dlg1");
+                    }
                     else Toast.makeText(activity.getApplicationContext(), getResources().getString(R.string.isNotLeveled), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -213,7 +216,11 @@ public class Levels extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if(position+1<=mylvl)
-                    OpenTest(position+1);
+                    {
+                        dlgInf = new DialogInfo2(position+1);
+                        dlgInf.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+                        dlgInf.show(getActivity().getSupportFragmentManager(), "dlg1");
+                    }
                     else Toast.makeText(activity.getApplicationContext(), getResources().getString(R.string.isNotLeveled), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -221,7 +228,46 @@ public class Levels extends Fragment {
             return  convertView;
         }
 
-        private void OpenTest(int lvl) {
+
+
+
+    }
+    @SuppressLint("ValidFragment")
+    public static class DialogInfo2 extends DialogFragment {
+
+        TextView tvInfo;
+        View v;
+        Button btnOK, btnCancel;
+        int pos;
+        public DialogInfo2(int pos) {
+            this.pos = pos;
+        }
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            v = inflater.inflate(R.layout.textview, null);
+            tvInfo = (TextView) v.findViewById(R.id.tvInfo);
+            btnCancel = (Button) v.findViewById(R.id.btnCancel);
+            btnOK = (Button) v.findViewById(R.id.btnOK);
+            if(Constants.kaztestLang)
+            tvInfo.setText("Стоимость:  ");
+            else tvInfo.setText("Бағасы:  ");
+            btnOK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   OpenTestLevel(pos);
+                    dlgInf.dismiss();
+                }
+            });
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dlgInf.dismiss();
+                }
+            });
+            return v;
+        }
+        private void OpenTestLevel(int lvl) {
             Bundle bundle = new Bundle();
             bundle.putString("lvl", lvl+"");
             bundle.putString("mylvl", mylvl+"");
@@ -234,7 +280,6 @@ public class Levels extends Fragment {
             ft.commit();
 
         }
-
 
     }
 

@@ -1,9 +1,11 @@
 package kz.drw.kaztest;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +65,7 @@ public class Training extends Fragment {
     Integer[] lastsQuestionIDs;
     private  static  int restCount=0;
     Toast mToast;
+    Vibrator mVibrator;
     public Training() {
     }
 
@@ -77,6 +80,7 @@ public class Training extends Fragment {
         isTraining=false; isWrong=false;
         countCorrect=0;
         Constants.isTest=true;
+        mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         mToast = Toast.makeText(getActivity(), getResources().getString(R.string.isNotAnswered), Toast.LENGTH_SHORT);
         Bundle bundle = getArguments();
         if(bundle!=null) {
@@ -121,6 +125,7 @@ public class Training extends Fragment {
 
                     }
                     else {
+                        mVibrator.vibrate(520);
                         lay1var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         lay1var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         tvVariant1.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -160,6 +165,7 @@ public class Training extends Fragment {
 
                        }
                     else {
+                        mVibrator.vibrate(520);
                         lay2var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         lay2var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         tvVariant2.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -199,6 +205,7 @@ public class Training extends Fragment {
                         }
                         countCorrect++;
                     } else {
+                        mVibrator.vibrate(520);
                         lay3var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         lay3var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         tvVariant3.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -242,6 +249,7 @@ public class Training extends Fragment {
 
 
                 } else {
+                    mVibrator.vibrate(520);
                     lay4var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     lay4var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     tvVariant4.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -365,6 +373,7 @@ public class Training extends Fragment {
         if(type==1) {
             img.setImageDrawable(getResources().getDrawable(R.drawable.smile_bad));
             tv.setText(getActivity().getResources().getString(R.string.isFailTraining));
+
             tv2.setVisibility(View.VISIBLE);
         }
         else if(type==2) {

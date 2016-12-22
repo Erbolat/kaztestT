@@ -23,6 +23,12 @@
   </declare-styleable>
 
 
+    <declare-styleable name="ListViewMaxHeight">
+      <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
+
+
 
 
   <declare-styleable name="RangeBar">

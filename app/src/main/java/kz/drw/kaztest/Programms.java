@@ -43,6 +43,7 @@ import java.util.List;
 
 import kz.drw.kaztest.utils.AppController;
 import kz.drw.kaztest.utils.Constants;
+import kz.drw.kaztest.utils.ListViewMaxHeight;
 
 import static kz.drw.kaztest.Profile.newPass;
 import static kz.drw.kaztest.Profile.newPassRe;
@@ -362,34 +363,41 @@ private  void GetList(){
             }
             else {
                 v = inflater.inflate(R.layout.listview_new, null);
-                list = (ListView) v.findViewById(R.id.list1);
+                ListViewMaxHeight listMax = (ListViewMaxHeight) v.findViewById(R.id.list1);
                 lay = (LinearLayout) v.findViewById(R.id.lay);
                 btnCancel = (Button) v.findViewById(R.id.btnCancel);
                 layCorpusA = (LinearLayout) v.findViewById(R.id.layCorpusA);
                 btnOK = (Button) v.findViewById(R.id.btnOK);
                 tvLawCount = (TextView) v.findViewById(R.id.tvLawCount);
                 tvLawCountText = (TextView) v.findViewById(R.id.tvLawCountText);
-                lay.setVisibility(View.VISIBLE);
-                RelativeLayout.LayoutParams mParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,800);
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) list
-                        .getLayoutParams();
-                layoutParams.setMargins(0, 30, 0, 0);
-                list.setLayoutParams(mParam);
-                list.setLayoutParams(layoutParams);
+                lay.setVisibility(View.GONE);
+//                RelativeLayout.LayoutParams mParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,800);
+//                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) list
+//                        .getLayoutParams();
+//                layoutParams.setMargins(0, 30, 0, 0);
+//                list.setLayoutParams(mParam);
+//                list.setLayoutParams(layoutParams);
                 layCorpusA.setVisibility(View.VISIBLE);
 
                 tvLawCount.setText("Cумма: "+5*info.length+" тг");
                 tvLawCountText.append(" "+info.length);
 
                 Lists listAdapter = new Lists(getActivity(), info);
-                list.setAdapter(listAdapter);
+                listMax.setAdapter(listAdapter);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Programms.dlg.dismiss();
+                        OpenCorpus(lawsStr);
+                    }
+                }, 2500);
             }
             btnOK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(program!=4)
                     OpenTest(Programms.program);
-                    else OpenCorpus(lawsStr);
+//                    else OpenCorpus(lawsStr);
                     Programms.dlg.dismiss();
                 }
             });

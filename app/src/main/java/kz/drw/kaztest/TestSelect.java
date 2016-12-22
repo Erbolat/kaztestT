@@ -57,7 +57,10 @@ public class TestSelect extends Fragment {
         layTraining.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OpenTraining(3);
+                if(!MainActivity.userID.equals(""))
+                    OpenTraining(3);
+                else Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.isNotAuthorization), Toast.LENGTH_SHORT).show();
+
             }
         });
         return  view;
