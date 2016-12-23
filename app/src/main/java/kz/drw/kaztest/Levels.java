@@ -38,6 +38,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class Levels extends Fragment {
     int count=1;
     ListView list;
     public static DialogInfo2 dlgInf;
+    public static Boolean[] isPriced;
     public static Integer[] drFull = new Integer[]{R.drawable.roundedbtn_full,R.drawable.roundedbtn_green2,R.drawable.roundedbtn_black4,R.drawable.roundedbtn_yellow3,R.drawable.roundedbtn_blue5} ;
     public static Integer[] drEmpty = new Integer[]{R.drawable.roundedbtn_empty,R.drawable.roundedbtn_empty2,R.drawable.roundedbtn_empty4,R.drawable.roundedbtn_empty3,R.drawable.roundedbtn_empty5} ;
     public Levels() {
@@ -78,15 +80,20 @@ public class Levels extends Fragment {
 
                         if(response.equals("null"))
                         { mylvl = 1;
+                            isPriced = new Boolean[count];
+                            Arrays.fill(isPriced, true);
                             ListAdapter listAdapter = new ListAdapter((AppCompatActivity) getActivity(), count);
                             list.setAdapter(listAdapter);
                         }
 
                         else {
+
                             try {
                                 JSONObject js = new JSONObject(response);
                                 mylvl = js.getInt("lvl");
                                 count = js.getInt("count");
+                                isPriced = new Boolean[count];
+                                Arrays.fill(isPriced, true);
                                 if(count>=15) {
                                 int integ = count/15;
                                 int rest = count%15;
@@ -124,9 +131,11 @@ public class Levels extends Fragment {
     }
     class ListAdapter extends BaseAdapter {
         private Activity activity;
+
         private LayoutInflater inflater;
         int count;
         ImageButton imgStatus, imgBtnBackgr;
+
         Button btnLevel;
         public ListAdapter(Activity activity, int count) {
             this.activity = activity;
@@ -172,13 +181,16 @@ public class Levels extends Fragment {
                 if(position+1<mylvl)
                 {   imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.check));
                     btnLevel.setTextColor(getResources().getColor(R.color.colorWhite));
+                    isPriced[position] = false;
                     btnLevel.setBackground(getResources().getDrawable(drFull[mPosition]));}
                 else if(position+1<=mylvl) {
+                    isPriced[position] = true;
                     btnLevel.setTextColor(getResources().getColor(R.color.colorBlack));
                     imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kul));
                     btnLevel.setBackground(getResources().getDrawable(drEmpty[mPosition]));}
                 else {imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kulyp));
                       btnLevel.setTextColor(getResources().getColor(R.color.colorBlack));
+                    isPriced[position] = true;
                        btnLevel.setBackground(getResources().getDrawable(drEmpty[mPosition]));}
             }
             else {imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kulyp));
@@ -190,7 +202,7 @@ public class Levels extends Fragment {
                 public void onClick(View view) {
                     if(position+1<=mylvl)
                     {
-                        dlgInf = new DialogInfo2(position+1);
+                        dlgInf = new DialogInfo2(position+1,isPriced[position]);
                         dlgInf.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                         dlgInf.show(getActivity().getSupportFragmentManager(), "dlg1");
                     }
@@ -205,7 +217,7 @@ public class Levels extends Fragment {
                 public void onClick(View view) {
                     if(position+1<=mylvl)
                     {
-                        dlgInf = new DialogInfo2(position+1);
+                        dlgInf = new DialogInfo2(position+1, isPriced[position]);
                         dlgInf.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                         dlgInf.show(getActivity().getSupportFragmentManager(), "dlg1");
                     }
@@ -217,7 +229,7 @@ public class Levels extends Fragment {
                 public void onClick(View view) {
                     if(position+1<=mylvl)
                     {
-                        dlgInf = new DialogInfo2(position+1);
+                        dlgInf = new DialogInfo2(position+1,isPriced[position]);
                         dlgInf.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                         dlgInf.show(getActivity().getSupportFragmentManager(), "dlg1");
                     }
@@ -239,8 +251,11 @@ public class Levels extends Fragment {
         View v;
         Button btnOK, btnCancel;
         int pos;
-        public DialogInfo2(int pos) {
+        LinearLayout layPrice;
+        Boolean isPriced;
+        public DialogInfo2(int pos, boolean isPriced) {
             this.pos = pos;
+            this.isPriced = isPriced;
         }
 
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -248,10 +263,12 @@ public class Levels extends Fragment {
             v = inflater.inflate(R.layout.textview, null);
             tvInfo = (TextView) v.findViewById(R.id.tvInfo);
             btnCancel = (Button) v.findViewById(R.id.btnCancel);
+            layPrice = (LinearLayout) v.findViewById(R.id.layPrice);
             btnOK = (Button) v.findViewById(R.id.btnOK);
             if(Constants.kaztestLang)
             tvInfo.setText("Стоимость:  ");
             else tvInfo.setText("Бағасы:  ");
+            if(!isPriced) layPrice.setVisibility(View.GONE);
             btnOK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

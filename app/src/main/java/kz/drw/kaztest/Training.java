@@ -460,7 +460,7 @@ public class Training extends Fragment {
             isTraining=true;
                 layLaw.setVisibility(View.GONE);
 //                if(Integer.parseInt(lvl)>=Integer.parseInt(mylvl))
-                Toast.makeText(getActivity(), getResources().getString(R.string.alertTraining), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), getResources().getString(R.string.alertTraining), Toast.LENGTH_LONG).show();
                 if(!selectingTest.equals("")) {
                 query = Constants.TREN_SELECT_LAW+"page="+lvl+"&zakonid="+selectingTest+"&userid="+MainActivity.userID+"&language="+Constants.kaztestLang;   //SELECT TEST
                     Log.d("query",query);
