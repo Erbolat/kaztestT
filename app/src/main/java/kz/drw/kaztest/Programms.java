@@ -479,7 +479,7 @@ private  void GetList(){
             tvLaw = (TextView) convertView.findViewById(R.id.tvLaw);
             tvSumma = (TextView) convertView.findViewById(R.id.tvSumma);
             tvLaw.setText(titles[position]+"");
-
+//
             return  convertView;
         }
 
