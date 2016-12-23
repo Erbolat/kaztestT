@@ -28,7 +28,7 @@
         android:gravity="center"
         android:paddingTop="20dp"
         android:id="@+id/layVer1"
-        android:layout_width="210dp">
+        android:layout_width="190dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/colorBlack"
                 android:id="@+id/tvDate" />
         </LinearLayout>
@@ -49,6 +49,7 @@
         android:orientation="vertical"
         android:background="@drawable/border_whiter"
         android:elevation="4dp"
+        android:minHeight="100dp"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_weight="1"
@@ -74,22 +75,18 @@
             android:text="1"
             android:textColor="#5b5a5a"
             android:textStyle="bold"
-            android:textSize="34dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:id="@+id/tvPoint" />
+            android:id="@+id/tvPoint"
+            android:textSize="14sp" />ы
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="балл"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="3dp"
                 android:textColor="#5b5a5a"
                 android:textStyle="bold"
                 android:id="@+id/tvCountAll"
-                android:layout_marginTop="4dp"
-                android:textSize="18dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical" />
+                android:textSize="14sp"
+            />
 
         </LinearLayout>
 </LinearLayout>

@@ -192,6 +192,7 @@ private  void GetList(){
                             @Override
                             public void onClick(View view) {
                                 int countChecks=0;
+                                lawsStr="";
                                 String idsStr="";
                                 for(int i=0; i<checks.length; i++) {
                                     if(checks[i]) {
@@ -208,9 +209,13 @@ private  void GetList(){
                                     String[] lawids = idsStr.split(",");
                                     for(int i=0; i<countChecks; i++){
                                         lawsNames[i]= laws[Integer.parseInt(lawids[i])];
+//                                        Log.d("%i  = %s "+i,lawsNames[i]);
                                     }
                                     for(int i=0; i<d.length-1; i++)
-                                        lawsStr+=d[i];
+                                    { lawsStr+=d[i];
+                                        Log.d("%i  = %s "+i,d[i]+"");
+                                    }
+                                    Log.d("lawsStr ",lawsStr);
                                     dlg = new DialogInfo();
                                     program=4;
                                     dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
@@ -390,7 +395,7 @@ private  void GetList(){
                         Programms.dlg.dismiss();
                         OpenCorpus(lawsStr);
                     }
-                }, 2500);
+                }, 2000);
             }
             btnOK.setOnClickListener(new View.OnClickListener() {
                 @Override

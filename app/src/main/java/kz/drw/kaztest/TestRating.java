@@ -234,8 +234,9 @@ public class TestRating extends AppCompatActivity {
                     zero[0] ="0"+(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
 
-                tvSecond.setText(""+String.format("%d : %s",
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                tvSecond.setText(""+String.format("%d : %d : %s",
+                        TimeUnit.MILLISECONDS.toHours( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60),
                         zero[0]));
 
                 Corpus.time =  TimeUnit.MILLISECONDS.toMinutes(  minute - millisUntilFinished)+":"+(TimeUnit.MILLISECONDS.toSeconds(minute - millisUntilFinished) -
