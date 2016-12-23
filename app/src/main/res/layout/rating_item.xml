@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:baselineAligned="false">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:paddingBottom="6dp"
-    android:paddingTop="6dp"
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp"
     android:layout_height="match_parent"
-        android:background="@drawable/border_white_test"
+    android:background="@drawable/border_white_test"
     android:id="@+id/layContent">
-    <TextView
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:lines="1"
-        android:text="1"
-        android:textColor="#000"
-        android:fontFamily="sans-serif"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:id="@+id/tvNumber"
-        />
-<kz.drw.kaztest.utils.CircleImageView
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lines="1"
+            android:text="1"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:id="@+id/tvNumber"
+            />
+
+        <kz.drw.kaztest.utils.CircleImageView
     android:layout_width="30dp"
     android:layout_height="30dp"
     android:layout_marginLeft="8dp"
@@ -62,13 +65,13 @@
         android:layout_weight="3"
         android:text="1200"
         android:paddingRight="4dp"
-        android:gravity="right"
+        android:gravity="left|center_vertical"
+        android:layout_gravity="left"
         android:textColor="#000"
-        android:textAlignment="center"
         android:fontFamily="sans-serif"
         android:textSize="12dp"
         android:id="@+id/tvRating"
-        android:layout_gravity="center_horizontal" />
+        />
     <TextView
         android:layout_width="fill_parent"
         android:lines="1"
@@ -80,9 +83,10 @@
         android:textColor="#000"
         android:fontFamily="sans-serif"
         android:textSize="12dp"
+        android:paddingRight="4dp"
         android:id="@+id/tvTime"
-        android:gravity="right"
-        android:layout_gravity="center_horizontal" />
+        android:gravity="left|center_vertical"
+        android:layout_gravity="left" />
 </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

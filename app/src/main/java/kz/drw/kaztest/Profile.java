@@ -18,6 +18,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
@@ -50,6 +51,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.gregacucnik.EditTextView;
 
@@ -116,9 +118,9 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.profile, container, false);
        // ((MainActivity) getActivity()).setActionBarTitle("Профиль");
-        GetCities();
-        initResources();
-        GetProfile();
+                initResources();
+                GetCities();
+                GetProfile();
 
 
 
@@ -206,27 +208,19 @@ public class Profile extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("isCity ", isCity+"");
+                lastName="";
+
                 if(!tvName.getText().toString().equals(""))
                 {  fio = tvName.getText().toString().split(" ");
                     if(fio.length<2) Toast.makeText(getActivity(), getResources().getString(R.string.setNameSurname), Toast.LENGTH_SHORT).show();
                 else {
                         if(isCity){
                             for(int i=0; i<cityNames.length; i++) {
-                                if(cityNames[i].equals(myCity)) idCity=cityIds[i];
-                                Log.d("myCity", myCity+"");
-                                Log.d("cityNames[i] ", cityNames[i]+"");
+                                if(cityNames[i].equals(myCity))
+                                 idCity=cityIds[i];
                             }
 
                         }
-//                        if(isSchool){
-//                            if(schoolNames!=null) {
-//                                for (int i = 0; i < schoolNames.length; i++) {
-//                                    if (schoolNames[i].equals(mySchool)) idSchool = schoolIds[i];
-//                                    Log.d("idSchool", idSchool + "");
-//                                }
-//                            }
-//                        }
                         if(fio.length>2) lastName = fio[2];
                         if(idCity!=0 || isCity) {
                             if(isPol!=0) {
@@ -300,13 +294,13 @@ public class Profile extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("AA","000");
+
         if (requestCode == Crop.REQUEST_PICK && resultCode == getActivity().RESULT_OK) {
             beginCrop(data.getData());
-            Log.d("AA","1");
+
         } else if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, data);
-            Log.d("AA", "2");
+
         }
 
     }
@@ -402,8 +396,8 @@ public class Profile extends Fragment {
                     tvCity.setText(txt);
                     for(int i=0;i<cityNames.length;i++){
                         if(cityNames[i].equals(txt))
-                            idCity=cityIds[i];
-                        Log.d("ccc",idCity+"");
+                        { idCity=cityIds[i];
+                        myCity = cityNames[i];}
                     }
                     dialog.cancel();
                     dialog.dismiss(); }
@@ -491,7 +485,6 @@ public class Profile extends Fragment {
                     for(int i=0;i<schoolNames.length;i++){
                         if(schoolNames[i].equals(txt))
                             idSchool=schoolIds[i];
-                        Log.d("ccc",idSchool+"");
                     }
                     dialog.cancel();
                     dialog.dismiss(); }
@@ -499,15 +492,6 @@ public class Profile extends Fragment {
         });
     }
     private void setChanges() {
-
-        Log.d("UserId",MainActivity.userID);
-        Log.d("birtdate",myBirth);
-        Log.d("cityid",idCity+"");
-        Log.d("schollid",idSchool+"");
-        Log.d("FirstName",fio[1]);
-        Log.d("MiddleName",lastName);
-        Log.d("LastName",fio[0]);
-        Log.d("Gender",isMen+"");
         Constants.Show_ProgressDialog(getActivity(), getResources().getString(R.string.wait));
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.CHANGE_PROFILE,
                 new Response.Listener<String>() {
@@ -516,6 +500,7 @@ public class Profile extends Fragment {
 
                         Constants.Hide_ProgressDialog();
                         Toast.makeText(getActivity(), getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                        ((MainActivity) getActivity()).setName(fio[0]+" "+fio[1]+" "+lastName);
                     }
                 },
                 new Response.ErrorListener() {
@@ -589,7 +574,6 @@ public class Profile extends Fragment {
                         if(!response.getString("birtdate").equals("null"))
                         {
                             String bd[] = response.getString("birtdate").split("T");
-                            Log.d("fdsfds",bd[0]);
                             String time[] = bd[0].split("-");
                             myBirth = time[2]+"-"+time[1]+"-"+time[0];
                             tvBirth.setText(time[2]+"."+time[1]+"."+time[0]);
@@ -601,6 +585,7 @@ public class Profile extends Fragment {
                         {
                             String urlPhoto = response.getString("photo");
                             urlPhoto = urlPhoto.replace("~","");
+                            ava.setBackgroundResource(0);
                             ava.setImageUrl("http://www.kaztest.com"+urlPhoto, imageLoader);
 
                         }
@@ -638,13 +623,11 @@ public class Profile extends Fragment {
         int year = Integer.parseInt(dates[2]);
         old = year - myYear;
         if(old<=17) {
-            Log.d("11","11");
             tvSchool.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             tvSchool.setFocusable(true);
             tvSchool.setEnabled(true);
         }
         else {
-            Log.d("11","112");
             tvSchool.setTextColor(getResources().getColor(R.color.colorWhiter));
             tvSchool.setFocusable(false);
             tvSchool.setText(getResources().getString(R.string.school));
@@ -774,12 +757,12 @@ public class Profile extends Fragment {
 
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);
-            Log.d(LOG_TAG, "Dialog 2: onDismiss");
+
         }
 
         public void onCancel(DialogInterface dialog) {
             super.onCancel(dialog);
-            Log.d(LOG_TAG, "Dialog 2: onCancel");
+
         }
 
 

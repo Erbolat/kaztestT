@@ -73,9 +73,9 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
     public  static  int myrating=0;
     static  TextView tvID, tvName, tvTimes, tvBall, Number;
     static Activity act;
-    public static int thisMonth, thisYear;
+    public static int thisMonth, thisYear,thisDay;
     public  static Boolean firstOpen=false;
-    public  static  LinearLayout layMyRating;
+    public  static  LinearLayout layMyRating, layMonYear;
     public static CircleImageView imgMyAva;
     public  static  ImageLoader imgLoad = AppController.getInstance().getImageLoader();
     ImageView Next,Back;
@@ -87,12 +87,13 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
         DateFormat dff = new SimpleDateFormat("dd-MM-yyyy");
         String date = dff.format(Calendar.getInstance().getTime());
         String[] dates = date.split("-");
+        thisDay = Integer.parseInt(dates[0]);
         thisMonth = Integer.parseInt(dates[1]);
         thisYear = Integer.parseInt(dates[2]);
         initRecources();
         if(Constants.kaztestLang)
-            tvMonYear.setText("Рейтинг: "+History.ListAdapter.setDateKaz(thisMonth+"")+"  "+thisYear+" жыл");
-        else  tvMonYear.setText("Рейтинг: "+History.ListAdapter.setDateRus(thisMonth+"")+"  "+thisYear+" года");
+            tvMonYear.setText(History.ListAdapter.setDateKaz2(thisMonth+"")+"   "+thisYear);
+        else  tvMonYear.setText(History.ListAdapter.setDateRus2(thisMonth+"")+"   "+thisYear);
 
         act = getActivity();
         Back.setImageDrawable(getResources().getDrawable(R.drawable.back_w));
@@ -103,7 +104,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
         if(!MainActivity.userID.equals(""))
         GetRatingGos(thisMonth+"",thisYear+"",page);
         else Toast.makeText(act, getResources().getString(R.string.isNotAuthorization), Toast.LENGTH_SHORT).show();
-        tvMonYear.setOnClickListener(new View.OnClickListener() {
+        layMonYear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog.OnDateSetListener listener = null;
@@ -127,10 +128,12 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
         Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(page<=9) {
                 page+=1;
                 if(page!=1)  Back.setImageDrawable(getResources().getDrawable(R.drawable.le));
                 Number.setText(page+"");
                 GetRatingGos(thisMonth+"",thisYear+"",page);
+                }
 
             }
         });
@@ -169,6 +172,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
         layMyRating = (LinearLayout) view.findViewById(R.id.layMyRating);
         imgMyAva = (CircleImageView) view.findViewById(R.id.imgMyAva);
         tvMonYear = (TextView) view.findViewById(R.id.tvMonYear);
+        layMonYear = (LinearLayout) view.findViewById(R.id.layMonYear);
     }
 
 
@@ -348,7 +352,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
                         if(position==myrating%10-1)
                             layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_red_test));
                         else
-                            layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_green_test));
+                            layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_green_test2));
                     }
                     else
                         layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_white_test));
@@ -357,7 +361,8 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
                     if(myrating>5) {
                         if( position==myrating%10-1) {
                         layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_red_test));
-                    }}
+                    }
+                    else   layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_white_test));}
                    else{
                     layContent.setBackground(activity.getResources().getDrawable(R.drawable.border_white_test));
               }
@@ -416,12 +421,12 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
 
             builder.setView(dialog)
                     // Add action buttons
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getResources().getString(R.string.agree), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             String month = "";
-                            if(Constants.kaztestLang)    tvMonYear.setText("Рейтинг "+History.ListAdapter.setDateKaz(monthPicker.getValue()+"")+"  "+yearPicker.getValue()+" жыл");
-                            else tvMonYear.setText("Рейтинг "+History.ListAdapter.setDateRus(monthPicker.getValue()+"")+"  "+yearPicker.getValue()+" года");
+                            if(Constants.kaztestLang)    tvMonYear.setText(History.ListAdapter.setDateKaz2(monthPicker.getValue()+"")+"  "+yearPicker.getValue());
+                            else tvMonYear.setText(History.ListAdapter.setDateRus2(monthPicker.getValue()+"")+"  "+yearPicker.getValue());
                             thisMonth  = monthPicker.getValue();
                             thisYear=yearPicker.getValue();
                             page=1;
@@ -429,7 +434,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
                             Number.setText(page+"");
                         }
                     })
-                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             MonthYearPickerDialog.this.getDialog().cancel();
                         }

@@ -137,7 +137,7 @@
         <item>Мои данные</item>
         <item>Результаты</item>
     </string-array>
-    <string name="isDeveloped">Данный раздел пока еще в разработке</string>
+    <string name="isDeveloped">Данный раздел находится в стадии разработки</string>
     <string name="isNotAuthorization">Вы еще не авторизованы</string>
     <string name="isNotLeveled">Вы не достигли этого уровня</string>
     <string name="NoData">Нет данных</string>
@@ -150,7 +150,7 @@
     <string name="level">уровень</string>
     <string name="mypass">Текущий пароль:</string>
     <string name="newpass">Новый пароль:</string>
-    <string name="repass">Повторите новый пароль:</string>
+    <string name="repass">Подтвердите новый пароль:</string>
     <string name="emptyList">Список пуст</string>
     <string name="tryAgain">Попробуйте снова</string>
     <string name="isGoodTraining">Поздравляю! Вы прошли этот уровень</string>
@@ -158,4 +158,8 @@
     <string name="porogTrue">Поздравляем, Вы набрали проходной балл</string>
     <string name="porog">К сожалению, Вы не набрали проходной балл</string>
     <string name="cancel">Отмена</string>
+    <string name="tvPrice">Стоимость уровня:</string>
+    <string name="suraktan">вопросов</string>
+    <string name="last">дней осталось</string>
+    <string name="disabled">Запрещено!</string>
 </resources>

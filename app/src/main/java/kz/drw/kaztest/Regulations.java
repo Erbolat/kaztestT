@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,6 +27,7 @@ public class Regulations extends Fragment {
 
         TextView tvRegular,tvTheme;
         String regular="", regularRu="";
+        WebView web;
     public Regulations() {
     }
 
@@ -38,12 +40,17 @@ public class Regulations extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view  = inflater.inflate(R.layout.fragment_regulations, container, false);
+        View view  = inflater.inflate(R.layout.fragment_regulations2, container, false);
         Constants.isTest=false;
-        tvRegular = (TextView) view.findViewById(R.id.tvRegular);
-        tvRegular.setVisibility(View.GONE);
+        web = (WebView) view.findViewById(R.id.web);
         Constants.Show_ProgressDialog(getActivity(),getResources().getString(R.string.wait));
-        GetRegular();
+        Thread myThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetRegular();
+            }
+        });
+        myThread.start();
 
         return  view;
 
@@ -65,12 +72,11 @@ public class Regulations extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        regular = String.valueOf(Html.fromHtml(regular)+"");
-                        regular = regular.replace("&nbsp;","");
                         regular = regular.replace("\n\n","\n");
+                        regular = regular.replace("\r\n\r\n","\n");
+                        regular = regular.replace("&nbsp;","");
+                        web.loadDataWithBaseURL(null, regular,"text/html", "UTF-8", null);
                         Constants.Hide_ProgressDialog();
-                        tvRegular.setText(regular);
-                        tvRegular.setVisibility(View.VISIBLE);
                     }
                 }
             }, new Response.ErrorListener() {

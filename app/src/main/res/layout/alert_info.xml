@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:paddingBottom="10dp">
 
     <ImageView

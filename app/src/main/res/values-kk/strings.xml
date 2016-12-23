@@ -93,7 +93,7 @@
         <item>Санаты: А-1,А-2,А-3,А-4,В-1,В-2,В-3,В-4,С-1,С-2,С-3,С-О-1, С-О-2,С-R-1,D-1,D-2,D-3,D-O-1,D-O-2,E-1,E-2</item>
         <item>Сұрақтардың жалпы саны: 135 сұрақ</item>
         <item>Тесттен өтудің төменгі балы: 95 балл</item>
-        <item>Тестті тапсыруга берілетін уақыт: 1 сағ,50 мин</item>
+        <item>Тестті тапсыруға берілетін уақыт: 1 сағат, 50 минут</item>
         <item>Тестті тапсыру құны: 25 теңге</item>
     </string-array>
 
@@ -102,7 +102,7 @@
         <item>Санаты: B-5,C-4,C-5,C-O-3,C-O-4,C-O-5,C-O-6,C-R-2,C-R- 3, C-R-4,D-4,D-5,D-O-3,D-O-4,D-O-5,D-O-6,E-3,E-R-1, E-R-2,E-R-3,E-G-1,E-G-2</item>
         <item>Сұрақтардың жалпы саны: 120 сұрақ</item>
         <item>Тесттен өтудің төменгі балы: 72 балл</item>
-        <item>Тестті тапсыруга берілетін уақыт: 1 сағат,40 минут</item>
+        <item>Тестті тапсыруға берілетін уақыт: 1 сағат, 40 минут</item>
         <item>Тестті тапсыру құны: 15 теңге</item>
     </string-array>
 
@@ -111,7 +111,7 @@
         <item>Санаты: C-R-5,E-4,E-5,E-R-4,E-R-5,E-G-3,E-G-4</item>
         <item>Сұрақтардың жалпы саны: 90 сұрақ</item>
         <item>Тесттен өтудің төменгі балы: 45 балл</item>
-        <item>Тестті тапсыруга берілетін уақыт: 1сағ,20 минут</item>
+        <item>Тестті тапсыруға берілетін уақыт: 1 сағат, 20 минут</item>
         <item>Тестті тапсыру құны: 10 теңге</item>
     </string-array>
 
@@ -131,11 +131,11 @@
         <item>Мәліметтер</item>
         <item>Нәтижелер</item>
     </string-array>
-    <string name="isDeveloped">Бұл бөлімде жобалау жұмыстары жүргізілуде</string>
+    <string name="isDeveloped">Бұл бөлімде жобалау жұмыстары жүргізіліп жатыр</string>
     <string name="isNotAuthorization">Сіз әлі кірмедіңіз</string>
-    <string name="isNotLeveled">Бұл деңгейді жетпедіңіз</string>
+    <string name="isNotLeveled">Бұл деңгейге жетпедіңіз</string>
     <string name="NoData">Мәліметтер жоқ</string>
-    <string name="alertTraining">Назар аударыңыз! Сұраққа дұрыс жауап берілмеген осы деңгейді қайта өтуіңізге тура келеді</string>
+    <string name="alertTraining">Назар аударыңыз! Сұраққа дұрыс жауап берілмеген жағдайда осы деңгейді қайта өтуіңізге тура келеді</string>
     <string name="connectInet">Интернетті қосыңыз</string>
     <string name="isNotAnswered">Сіз әлі жауап бермедіңіз</string>
     <string name="isFailTraining">Сіз бұл деңгейден өте алмадыңыз</string>
@@ -152,4 +152,8 @@
     <string name="porog">Өкінішке орай, Сіз тесттен өтудің төменгі балын жинай алмадыңыз</string>
     <string name="porogTrue">Құттықтаймыз, Сіз тесттен өтудің төменгі балын жинай алдыңыз</string>
     <string name="cancel">Болдырмау</string>
+    <string name="tvPrice">Деңгейдің құны:</string>
+    <string name="suraktan">сұрақтан</string>
+    <string name="last">күн қалды</string>
+    <string name="disabled">Рұқсат етілмейді!</string>
 </resources>

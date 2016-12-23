@@ -65,8 +65,8 @@ public class AppController extends Application {
 		MainActivity.isChanged=true;
 		SharedPreferences sharedpreferences = context.getSharedPreferences("lang", Context.MODE_PRIVATE);
 		if(sharedpreferences.getString("language","")!=null) {
-			if(sharedpreferences.getString("language","").equals("true")) Constants.language="kk";
-			else Constants.language="ru";
+			if(sharedpreferences.getString("language","").equals("true")) { Constants.language="kk"; Constants.kaztestLang=true;}
+			else {Constants.language="ru"; Constants.kaztestLang=false;}
 		}
 
 		Locale locale = new Locale(Constants.language);

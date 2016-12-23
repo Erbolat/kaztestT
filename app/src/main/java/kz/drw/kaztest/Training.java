@@ -80,7 +80,7 @@ public class Training extends Fragment {
         isTraining=false; isWrong=false;
         countCorrect=0;
         Constants.isTest=true;
-        mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+
         mToast = Toast.makeText(getActivity(), getResources().getString(R.string.isNotAnswered), Toast.LENGTH_SHORT);
         Bundle bundle = getArguments();
         if(bundle!=null) {
@@ -125,6 +125,7 @@ public class Training extends Fragment {
 
                     }
                     else {
+                        mVibrator = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
                         mVibrator.vibrate(520);
                         lay1var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         lay1var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -165,6 +166,7 @@ public class Training extends Fragment {
 
                        }
                     else {
+                        mVibrator = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
                         mVibrator.vibrate(520);
                         lay2var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         lay2var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -205,6 +207,7 @@ public class Training extends Fragment {
                         }
                         countCorrect++;
                     } else {
+                        mVibrator = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
                         mVibrator.vibrate(520);
                         lay3var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                         lay3var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -249,6 +252,7 @@ public class Training extends Fragment {
 
 
                 } else {
+                    mVibrator = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
                     mVibrator.vibrate(520);
                     lay4var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     lay4var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));

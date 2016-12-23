@@ -12,9 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import kz.drw.kaztest.utils.Constants;
 import kz.drw.kaztest.utils.SampleFragmentPagerAdapter;
 
 
@@ -23,10 +29,15 @@ public class Rating extends AppCompatActivity {
     private LinearLayout mTabsLinearLayout;
     TextView tvTestStart;
     ImageButton imgBtnBack;
+    int thisDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rating);
+        DateFormat dff = new SimpleDateFormat("dd-MM-yyyy");
+        String date = dff.format(Calendar.getInstance().getTime());
+        String[] dates = date.split("-");
+        thisDay = Integer.parseInt(dates[0]);
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
         tvTestStart = (TextView) findViewById(R.id.tvTestStart);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -68,7 +79,22 @@ public class Rating extends AppCompatActivity {
         tvTestStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Rating.this, TestRating.class));
+
+                if(thisDay>=32)
+                {
+                    startActivity(new Intent(Rating.this, TestRating.class));
+                }
+                else {
+                    if(Constants.kaztestLang)
+                    Toast.makeText(Rating.this, 32-thisDay+" күн қалды", Toast.LENGTH_SHORT).show();
+                    else  {
+                        if(32-thisDay==1)
+                            Toast.makeText(Rating.this, "Осталось "+(32-thisDay)+" день", Toast.LENGTH_SHORT).show();
+                        else if(32-thisDay==2 || 32-thisDay==3 || 32-thisDay==4)
+                        Toast.makeText(Rating.this, "Осталось "+(32-thisDay)+" дня", Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(Rating.this, "Осталось "+(32-thisDay)+" дней", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 

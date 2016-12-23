@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -56,168 +59,44 @@ import kz.drw.kaztest.utils.Constants;
 
 public class Result extends AppCompatActivity {
 
-    LinearLayout layAnswer,layTable1,layTable2,layTable3;
-    TextView tvTestName, tvSumma, tvCorpusB, tvFullCount, tvStartTime, tvFinishTime, tvLang;
+    LinearLayout layAnswer,layTable1,layTable2,layTable3, layLaw;
+    TextView tvTestName, tvSumma, tvCorpusB, tvFullCount, tvStartTime, tvFinishTime, tvLang,tvNameLaw;
     Button btnExit;
     String[] tvIDs, Corrects, MyCorrects;
     ImageButton img;
+    Spinner spinLaw;
     int kvadrat=0;
+    static int oldPosition=0;
     String duration="", dateFinish="";
-    int width=0, columsCount=0,columsCount1=0, last=0, row=0, wrongs=0;
+    int width=0,columsCount=0,origColumsCount=0, last=0, row=0, wrongs=0;
+    String[] myLaws2;
+    public  static  String[] myIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        myLaws2 = new String[Corpus.mylaws.length];
+        for(int i=0; i<Corpus.mylaws.length; i++) {
+            myLaws2[i] = (i+1)+". "+Corpus.mylaws[i];
+        }
         Constants.isResult=true;
-        DateFormat dff = new SimpleDateFormat("dd.MM.yyyy");
-        dateFinish = dff.format(Calendar.getInstance().getTime());
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
-        String zero="", zero2="";
-        String[] times = Corpus.time.split(":");
-        if(Integer.parseInt(times[0])<10) zero="0";
-        if(Integer.parseInt(times[1])<10) zero2="0";
-        duration = zero+times[0]+":"+zero2+times[1];
+        initTime();
         initResources();
+
         Corrects =Corpus.variants;
         MyCorrects = Corpus.myvariants;
-       // tvSumma.setText(getIntent().getStringExtra("right"));
-        tvFullCount.setText(getIntent().getStringExtra("count"));
-        if(width<850) kvadrat = 45;
-        else  if(width>=850 && width <1120) kvadrat = 95;
-        else kvadrat = 110;
-        columsCount  = (width-32)/(kvadrat+3);
-        columsCount1  = (width-32)/(kvadrat+3);
-        row = Corpus.variants.length/columsCount;
-        last  = Corpus.variants.length%columsCount;
-        if(last>0) row=row+1;
-
+        tvFullCount.setText(getIntent().getStringExtra("count")+" "+getResources().getString(R.string.suraktan));
+        tvNameLaw.setText(myLaws2[0]);
         if(Constants.kaztestLang) tvLang.append(" қазақ тілі");
         else tvLang.append(" русский язык");
 
-        for(int i=0; i<row;i++) {
-            LinearLayout linearLayout1 = new LinearLayout(this);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout1.setLayoutParams(layoutParams);
-            linearLayout1.setPadding(0,30,0,0);
-            TextView[] tvID=new TextView[columsCount];
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(kvadrat, kvadrat);
-            if(last>0)
-                if(i==row-1)  {
-                    columsCount = last;
-            tvID = new TextView[columsCount];}
-            else  tvID = new TextView[columsCount];
-            for (int l = 0; l < columsCount; l++) {
-                tvID[l] = new TextView(this);
-                tvID[l].setTag((l+1)+(i*columsCount1));
-                tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
-                tvID[l].setLayoutParams(lp);
-                tvID[l].setGravity(Gravity.CENTER);
-                tvID[l].setId(l);
-                tvID[l].setText((i*columsCount1 + l+1) + "");
-                if(!MyCorrects[(i*columsCount1 + l+1)-1].equals(Corrects[(i*columsCount1 + l+1)-1])){
-                    tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red_test));
-                    tvID[l].setTextColor(getResources().getColor(R.color.colorWhite));
-                }
-                else{
-                    tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_green_test));
-                    tvID[l].setTextColor(getResources().getColor(R.color.colorWhite));
-                }
-                linearLayout1.addView(tvID[l]);
-                tvID[l].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
-                    }
-                });
+        initTable(-1,0);
+        layLaw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAlertDialog();
             }
-            layTable1.addView(linearLayout1);
-
-
-
-            LinearLayout linearLayout3 = new LinearLayout(this);
-            layoutParams.setMargins(0, 0, 0, 0);
-            linearLayout3.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout3.setLayoutParams(layoutParams);
-
-            TextView[] tvMyCorrect=new TextView[columsCount];
-            LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(kvadrat, kvadrat);
-            if(last>0)
-                if(i==row-1)  {
-                    columsCount = last;
-                    tvMyCorrect = new TextView[columsCount];}
-                else  tvMyCorrect = new TextView[columsCount];
-            for (int l = 0; l < columsCount; l++) {
-                tvMyCorrect[l] = new TextView(this);
-                tvMyCorrect[l].setTag((l+1)+(i*columsCount1));
-                tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
-                tvMyCorrect[l].setLayoutParams(lp3);
-                tvMyCorrect[l].setId(l);
-                tvMyCorrect[l].setGravity(Gravity.CENTER);
-                tvMyCorrect[l].setText(MyCorrects[(i*columsCount1 + l+1)-1]);
-                if(!MyCorrects[(i*columsCount1 + l+1)-1].equals(Corrects[(i*columsCount1 + l+1)-1])){
-                    tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red_test));
-                    wrongs++;
-                    tvMyCorrect[l].setTextColor(getResources().getColor(R.color.colorWhite));
-                }
-                else{
-                    tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_green_test));
-                    tvMyCorrect[l].setTextColor(getResources().getColor(R.color.colorWhite));
-                }
-                final int finalL = l;
-                tvMyCorrect[l].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
-                    }
-                });
-                linearLayout3.addView(tvMyCorrect[l]);
-            }
-            tvSumma.setText(Integer.parseInt(getIntent().getStringExtra("count"))-wrongs+"");
-            if(Constants.isCORPUSB){
-                tvCorpusB.setVisibility(View.GONE);
-                if((Integer.parseInt(getIntent().getStringExtra("count"))-wrongs)<Programms.minBall)
-                    tvSumma.setTextColor(getResources().getColor(R.color.colorAccent));
-                else   tvSumma.setTextColor(getResources().getColor(R.color.colorGreen));
-            }
-            layTable1.addView(linearLayout3);
-
-
-
-//            LinearLayout linearLayout2 = new LinearLayout(this);
-//            layoutParams.setMargins(0, 0, 0, 0);
-//            linearLayout2.setOrientation(LinearLayout.HORIZONTAL);
-//            linearLayout2.setLayoutParams(layoutParams);
-//
-//            TextView[] tvCorrect=new TextView[columsCount];
-//            LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(kvadrat, kvadrat);
-//            if(last>0)
-//                if(i==row-1)  {
-//                    columsCount = last;
-//                    tvCorrect = new TextView[columsCount];}
-//                else  tvCorrect = new TextView[columsCount];
-//            for (int l = 0; l < columsCount; l++) {
-//                tvCorrect[l] = new TextView(this);
-//                tvCorrect[l].setTag((l+1)+(i*columsCount1));
-//                tvCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
-//                tvCorrect[l].setLayoutParams(lp2);
-//                tvCorrect[l].setId(l);
-
-//                tvCorrect[l].setText(Corrects[(i*columsCount1 + l+1)-1]);
-//                linearLayout2.addView(tvCorrect[l]);
-//                tvCorrect[l].setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
-//                    }
-//                });
-//            }
-//            layTable1.addView(linearLayout2);
-        }
+        });
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,6 +120,272 @@ public class Result extends AppCompatActivity {
 
         tvStartTime.append(dateFinish);
         tvFinishTime.append(duration);
+
+        tvSumma.setText(Corpus.countCorrect+"");
+        if(Constants.isCORPUSB){
+            tvCorpusB.setVisibility(View.GONE);
+
+            if(Corpus.countCorrect==0) {
+                tvSumma.setTextColor(getResources().getColor(R.color.colorAccent));
+            }
+            else {
+            if(Corpus.countCorrect<Programms.minBall)
+                tvSumma.setTextColor(getResources().getColor(R.color.colorAccent));
+            else   tvSumma.setTextColor(getResources().getColor(R.color.colorGreen));
+            }
+        }
+    }
+
+    private void setAlertDialog() {
+        final Dialog dialog = new Dialog(Result.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.listview);
+//        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+//        layoutParams.x = 20; // right margin
+//        layoutParams.y = 30; // top margin
+//        dialog.getWindow().setAttributes(layoutParams);
+//        // e.g. bottom + left margins:
+//        dialog.getWindow().setGravity(Gravity.BOTTOM|Gravity.LEFT);
+//        WindowManager.LayoutParams layoutParams2 = dialog.getWindow().getAttributes();
+//        layoutParams2.x = 20; // left margin
+//        layoutParams2.y = 30; // bottom margin
+//        dialog.getWindow().setAttributes(layoutParams2);
+        ListView list = (ListView) dialog.findViewById(R.id.list1);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Result.this, R.layout.textview3, R.id.text, myLaws2);
+        list.setAdapter(adapter);
+        dialog.show();
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tvNameLaw.setText(Corpus.mylaws[position]);
+                initTable(oldPosition,position);
+                dialog.cancel();
+                dialog.dismiss();
+
+            }
+        });
+
+
+
+    }
+
+    private void initTime() {
+        DateFormat dff = new SimpleDateFormat("dd.MM.yyyy");
+        dateFinish = dff.format(Calendar.getInstance().getTime());
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size); //
+        width = size.x;
+        String zero="", zero2="";
+        String[] times = Corpus.time.split(":");
+        if(Integer.parseInt(times[0])<10) zero="0";
+        if(Integer.parseInt(times[1])<10) zero2="0";
+        duration = zero+times[0]+":"+zero2+times[1];
+    }
+
+    private void initTable(int remView , int position) {
+        oldPosition=position;
+        if(remView != -1)
+            layTable1.removeAllViews();
+        oldPosition = position;
+
+
+        if(!Constants.isCORPUSA) {
+            if(width<850) kvadrat = 45;
+            else  if(width>=850 && width <1120) kvadrat = 95;
+            else kvadrat = 110;
+            columsCount  = (width-32)/(kvadrat+3);
+            origColumsCount  = (width-32)/(kvadrat+3);
+        if(position!=Corpus.elementsOfLaws.length-1) {
+            row =  (Corpus.elementsOfLaws[position+1]-Corpus.elementsOfLaws[position])/columsCount;    // kanwa katar
+            last = (Corpus.elementsOfLaws[position+1]-Corpus.elementsOfLaws[position])%columsCount;  // en songy katardagy elementter sany
+        }
+        else {
+            row =  (Integer.parseInt(getIntent().getStringExtra("count"))-Corpus.elementsOfLaws[position])/columsCount;    // kanwa katar
+            last = (Integer.parseInt(getIntent().getStringExtra("count"))-Corpus.elementsOfLaws[position])%columsCount;  // en songy katardagy elementter sany
+        }
+        if(last>0) row=row+1;            //en songy katardagy elementter sany > 0  onda row = row + 1;
+
+        for(int i=0; i<row;i++) {
+            LinearLayout linearLayout1 = new LinearLayout(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayout1.setLayoutParams(layoutParams);
+            linearLayout1.setPadding(0,30,0,0);
+            TextView[] tvID=new TextView[columsCount];
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(kvadrat, kvadrat);
+            if(last>0)
+                if(i==row-1)  {
+                    columsCount = last;
+                    tvID = new TextView[columsCount];}   //Songy katar olwemi
+                else  tvID = new TextView[columsCount];
+            for (int l = 0; l < columsCount; l++) {
+                tvID[l] = new TextView(this);
+              //  tvID[l].setTag((l+1)+(i*columsCount));
+                tvID[l].setTag(i*origColumsCount+Corpus.elementsOfLaws[position]+l);
+                tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
+                tvID[l].setLayoutParams(lp);
+                tvID[l].setGravity(Gravity.CENTER);
+                tvID[l].setId(l);
+                tvID[l].setText(i*origColumsCount+Corpus.elementsOfLaws[position]+l+1+ "");
+
+                if(!MyCorrects[i*origColumsCount+Corpus.elementsOfLaws[position]+l].equals(Corrects[i*origColumsCount+Corpus.elementsOfLaws[position]+l])){
+                    tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red_test));
+                    tvID[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+                else{
+                    tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_green_test));
+                    tvID[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+                linearLayout1.addView(tvID[l]);
+                tvID[l].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
+                    }
+                });
+            }
+            layTable1.addView(linearLayout1);
+
+            LinearLayout linearLayout3 = new LinearLayout(this);
+            layoutParams.setMargins(0, 0, 0, 0);
+            linearLayout3.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayout3.setLayoutParams(layoutParams);
+
+            TextView[] tvMyCorrect=new TextView[columsCount];
+            LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(kvadrat, kvadrat);
+            if(last>0)
+                if(i==row-1)  {
+                    columsCount = last;
+                    tvMyCorrect = new TextView[columsCount];}
+                else  tvMyCorrect = new TextView[columsCount];
+            for (int l = 0; l < columsCount; l++) {
+                tvMyCorrect[l] = new TextView(this);
+                tvMyCorrect[l].setTag(i*origColumsCount+Corpus.elementsOfLaws[position]+l);
+                tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
+                tvMyCorrect[l].setLayoutParams(lp3);
+                tvMyCorrect[l].setId(l);
+                tvMyCorrect[l].setGravity(Gravity.CENTER);
+                tvMyCorrect[l].setText(MyCorrects[i*origColumsCount+Corpus.elementsOfLaws[position]+l]);
+                if(!MyCorrects[i*origColumsCount+Corpus.elementsOfLaws[position]+l].equals(Corrects[i*origColumsCount+Corpus.elementsOfLaws[position]+l])){
+                    tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red_test));
+                    tvMyCorrect[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+                else{
+                    tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_green_test));
+                    tvMyCorrect[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+                final int finalL = l;
+                tvMyCorrect[l].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
+                    }
+                });
+                linearLayout3.addView(tvMyCorrect[l]);
+            }
+
+            layTable1.addView(linearLayout3);}
+    }
+        else {
+            if(width<850) kvadrat = 65;
+            else  if(width>=850 && width <1120) kvadrat = 115;
+            else kvadrat = 130;
+            columsCount  = (width-32)/(kvadrat+3);
+            origColumsCount  = (width-32)/(kvadrat+3);
+            myIndex = Corpus.myIndexes[position].split(",");
+            row =  Corpus.myLawsCount[position]/columsCount;    // kanwa katar
+            last = Corpus.myLawsCount[position]%columsCount;  // en songy katardagy elementter sany
+            if(last>0) row=row+1;
+
+            for(int i=0; i<row;i++) {
+                LinearLayout linearLayout1 = new LinearLayout(this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+                linearLayout1.setLayoutParams(layoutParams);
+                linearLayout1.setGravity(Gravity.CENTER);
+                linearLayout1.setPadding(0,30,0,0);
+                TextView[] tvID=new TextView[columsCount];
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(kvadrat, kvadrat);
+
+                if(last>0)
+                    if(i==row-1)  {
+                        columsCount = last;
+                        tvID = new TextView[columsCount];}   //Songy katar olwemi
+                    else  tvID = new TextView[columsCount];
+                for (int l = 0; l < columsCount; l++) {
+                    tvID[l] = new TextView(this);
+                    tvID[l].setTag(myIndex[i*origColumsCount+l]);
+                    tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
+                    tvID[l].setLayoutParams(lp);
+                    tvID[l].setGravity(Gravity.CENTER);
+                    tvID[l].setId(l);
+                    tvID[l].setText(1+Integer.parseInt(myIndex[i*origColumsCount+l])+ "");
+
+                    if(!MyCorrects[Integer.parseInt(myIndex[i*origColumsCount+l])].equals(Corrects[Integer.parseInt(myIndex[i*origColumsCount+l])])){
+                        tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red_test));
+                        tvID[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                    }
+                    else{
+                        tvID[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_green_test));
+                        tvID[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                    }
+                    linearLayout1.addView(tvID[l]);
+                    tvID[l].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
+                        }
+                    });
+                }
+                layTable1.setGravity(Gravity.CENTER);
+                layTable1.addView(linearLayout1);
+
+                LinearLayout linearLayout3 = new LinearLayout(this);
+                layoutParams.setMargins(0, 0, 0, 0);
+                linearLayout3.setOrientation(LinearLayout.HORIZONTAL);
+                linearLayout3.setLayoutParams(layoutParams);
+                linearLayout3.setGravity(Gravity.CENTER);
+                TextView[] tvMyCorrect=new TextView[columsCount];
+                LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(kvadrat, kvadrat);
+                if(last>0)
+                    if(i==row-1)  {
+                        columsCount = last;
+                        tvMyCorrect = new TextView[columsCount];}
+                    else  tvMyCorrect = new TextView[columsCount];
+                for (int l = 0; l < columsCount; l++) {
+                    tvMyCorrect[l] = new TextView(this);
+                    tvMyCorrect[l].setTag(myIndex[i*origColumsCount+l]);
+                    tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_whiter));
+                    tvMyCorrect[l].setLayoutParams(lp3);
+                    tvMyCorrect[l].setId(l);
+                    tvMyCorrect[l].setGravity(Gravity.CENTER);
+                    tvMyCorrect[l].setText(MyCorrects[Integer.parseInt(myIndex[i*origColumsCount+l])]);
+                    if(!MyCorrects[Integer.parseInt(myIndex[i*origColumsCount+l])].equals(Corrects[Integer.parseInt(myIndex[i*origColumsCount+l])])){
+                        tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red_test));
+                        tvMyCorrect[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                    }
+                    else{
+                        tvMyCorrect[l].setBackgroundDrawable(getResources().getDrawable(R.drawable.border_green_test));
+                        tvMyCorrect[l].setTextColor(getResources().getColor(R.color.colorWhite));
+                    }
+                    final int finalL = l;
+                    tvMyCorrect[l].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            GetAnswer(Integer.parseInt(String.valueOf(view.getTag())));
+                        }
+                    });
+                    linearLayout3.addView(tvMyCorrect[l]);
+                }
+                layTable1.setGravity(Gravity.CENTER);
+                layTable1.addView(linearLayout3);
+            }
+        }
     }
 
     private void setResultatRating() {
@@ -273,8 +418,8 @@ public class Result extends AppCompatActivity {
                     params.put("date",dateFinish+" 0:00:00");
                     params.put("time",duration+":00");
                     params.put("col",getIntent().getStringExtra("count"));
-                    params.put("rightcol",Integer.parseInt(getIntent().getStringExtra("count"))-wrongs+"");
-                    params.put("wrongcol",wrongs+"");
+                    params.put("rightcol",Corpus.countCorrect+"");
+                    params.put("wrongcol",Integer.parseInt(getIntent().getStringExtra("count"))-Corpus.countCorrect+"");
                     return params;
                 }
 
@@ -313,8 +458,8 @@ public class Result extends AppCompatActivity {
                 params.put("date",dateFinish);
                 params.put("time",duration);
                 params.put("col",getIntent().getStringExtra("count"));
-                params.put("rightcol",Integer.parseInt(getIntent().getStringExtra("count"))-wrongs+"");
-                params.put("wrongcol",wrongs+"");
+                params.put("rightcol",Corpus.countCorrect+"");
+                params.put("wrongcol",Integer.parseInt(getIntent().getStringExtra("count"))-Corpus.countCorrect+"");
                 return params;
             }
 
@@ -324,6 +469,8 @@ public class Result extends AppCompatActivity {
     }
 
     private void GetAnswer(int questionID) {
+        Log.e("questyion", questionID+"");
+
         final Dialog dialog = new Dialog(Result.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.alert);
@@ -358,26 +505,28 @@ public class Result extends AppCompatActivity {
             }
         });
 
-        tvVariant1.setText(Corpus.variant1[questionID-1]);
-        tvVariant2.setText(Corpus.variant2[questionID-1]);
-        tvVariant3.setText(Corpus.variant3[questionID-1]);
-        tvVariant4.setText(Corpus.variant4[questionID-1]);
-        tvQuestion.setText(questionID+". "+Corpus.questions[questionID-1]);
+        tvVariant1.setText(Corpus.variant1[questionID]);
+        tvVariant2.setText(Corpus.variant2[questionID]);
+        tvVariant3.setText(Corpus.variant3[questionID]);
+        tvVariant4.setText(Corpus.variant4[questionID]);
+        if(!Constants.isCORPUSA)
+        tvQuestion.setText(questionID+". "+Corpus.questions[questionID]);
+        else   tvQuestion.setText((questionID+1)+". "+Corpus.questions[questionID]);
 
 
-            if(Corrects[questionID-1].equals("A")) {
+            if(Corrects[questionID].equals("A")) {
         lay1var1.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         lay1var2.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         img1.setImageDrawable(getResources().getDrawable(R.drawable.check));
         tvVariant1.setTextColor(getResources().getColor(R.color.colorWhite));
         tvA.setTextColor(getResources().getColor(R.color.colorWhite));}
-            else if(Corrects[questionID-1].equals("B")) {
+            else if(Corrects[questionID].equals("B")) {
         lay2var1.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         lay2var2.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         img2.setImageDrawable(getResources().getDrawable(R.drawable.check));
         tvVariant2.setTextColor(getResources().getColor(R.color.colorWhite));
         tvB.setTextColor(getResources().getColor(R.color.colorWhite));}
-            else if(Corrects[questionID-1].equals("C")) {
+            else if(Corrects[questionID].equals("C")) {
         lay3var1.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         lay3var2.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         img3.setImageDrawable(getResources().getDrawable(R.drawable.check));
@@ -390,23 +539,23 @@ public class Result extends AppCompatActivity {
         tvVariant4.setTextColor(getResources().getColor(R.color.colorWhite));
         tvD.setTextColor(getResources().getColor(R.color.colorWhite));}
 
-        if(!MyCorrects[questionID-1].equals(Corrects[questionID-1])) {
-            if(MyCorrects[questionID-1].equals("A")) {
+        if(!MyCorrects[questionID].equals(Corrects[questionID])) {
+            if(MyCorrects[questionID].equals("A")) {
             lay1var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             lay1var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             tvVariant1.setTextColor(getResources().getColor(R.color.colorWhite));
             tvA.setTextColor(getResources().getColor(R.color.colorWhite)); }
-            else if(MyCorrects[questionID-1].equals("B")) {
+            else if(MyCorrects[questionID].equals("B")) {
             lay2var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             lay2var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             tvVariant2.setTextColor(getResources().getColor(R.color.colorWhite));
             tvB.setTextColor(getResources().getColor(R.color.colorWhite)); }
-            else if(MyCorrects[questionID-1].equals("C")) {
+            else if(MyCorrects[questionID].equals("C")) {
             lay3var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             lay3var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             tvVariant3.setTextColor(getResources().getColor(R.color.colorWhite));
             tvC.setTextColor(getResources().getColor(R.color.colorWhite)); }
-            else if(MyCorrects[questionID-1].equals("D")) {
+            else if(MyCorrects[questionID].equals("D")) {
             lay4var1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             lay4var2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             tvVariant4.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -434,11 +583,13 @@ public class Result extends AppCompatActivity {
         this.tvFullCount= (TextView) findViewById(R.id.tvFullCount);
         this.tvStartTime= (TextView) findViewById(R.id.tvStartTime);
         this.tvFinishTime= (TextView) findViewById(R.id.tvFinishTime);
+        this.tvNameLaw= (TextView) findViewById(R.id.tvNameLaw);
         this.tvLang= (TextView) findViewById(R.id.tvLang);
         this.layAnswer= (LinearLayout) findViewById(R.id.layAnswer);
         this.layTable1= (LinearLayout) findViewById(R.id.layTable1);
         this.btnExit= (Button) findViewById(R.id.btnExit);
         this.img= (ImageButton) findViewById(R.id.back);
+        this.layLaw= (LinearLayout) findViewById(R.id.layLaw);
     }
 
     public  void  onExit(View v){

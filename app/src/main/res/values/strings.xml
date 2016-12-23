@@ -111,7 +111,7 @@
         <item>Количество законов: 9 законов</item>
         <item>Общее количество вопросов: 135 вопросов</item>
         <item>Минимальный балл для прохождение теста: 95 балл</item>
-        <item>Время для прохождения теста:  1час, 50 минут  </item>
+        <item>Время для прохождения теста:  1 час, 50 минут  </item>
         <item>Стоимость теста: 25 тенге</item>
     </string-array>
     <string-array name="priceProg2">
@@ -120,7 +120,7 @@
         <item>Количество законов: 8 законов</item>
         <item>Общее количество вопросов: 120 вопросов</item>
         <item>Минимальный балл для прохождение теста:  72 балл</item>
-        <item>Время для прохождения теста:  1час, 40 минут</item>
+        <item>Время для прохождения теста:  1 час, 40 минут</item>
         <item>Стоимость теста: 15 тенге</item>
     </string-array>
     <string-array name="priceProg3">
@@ -129,7 +129,7 @@
         <item>Количество законов: 6 законов</item>
         <item>Общее количество вопросов: 90 вопросов </item>
         <item>Минимальный балл для прохождение теста: 45 балл</item>
-        <item>Время для прохождения теста: 1час, 20 минут</item>
+        <item>Время для прохождения теста: 1 час, 20 минут</item>
         <item>Стоимость теста: 10 тенге</item>
     </string-array>
 
@@ -138,7 +138,7 @@
         <item>Мои данные</item>
         <item>Результаты</item>
     </string-array>
-    <string name="isDeveloped">Данный раздел пока еще в разработке</string>
+    <string name="isDeveloped">Данный раздел находится в стадии разработки</string>
     <string name="isNotAuthorization">Вы еще не авторизованы</string>
     <string name="NoData">Нет данных</string>
     <string name="alertTraining">Внимание! При неправильном ответе на вопрос, придется пройти данный уровень заново</string>
@@ -152,11 +152,15 @@
     <string name="level">уровень</string>
     <string name="mypass">Текущий пароль:</string>
     <string name="newpass">Новый пароль:</string>
-    <string name="repass">Повторите новый пароль:</string>
+    <string name="repass">Подтвердите новый пароль:</string>
     <string name="emptyList">Список пуст</string>
     <string name="tryAgain">Попробуйте снова</string>
     <string name="congrulations">Поздравляю!</string>
     <string name="porogTrue">Поздравляем, Вы набрали проходной балл</string>
     <string name="porog">К сожалению, Вы не набрали проходной балл</string>
+    <string name="tvPrice">Стоимость уровня:</string>
+    <string name="suraktan">вопросов</string>
+    <string name="last">дней осталось</string>
+    <string name="disabled">Запрещено!</string>
 
 </resources>

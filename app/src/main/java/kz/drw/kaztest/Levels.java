@@ -261,6 +261,7 @@ public class Levels extends Fragment {
             this.isPriced = isPriced;
         }
 
+        @SuppressLint("SetTextI18n")
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             v = inflater.inflate(R.layout.textview, null);
@@ -268,9 +269,7 @@ public class Levels extends Fragment {
             btnCancel = (Button) v.findViewById(R.id.btnCancel);
             layPrice = (LinearLayout) v.findViewById(R.id.layPrice);
             btnOK = (Button) v.findViewById(R.id.btnOK);
-            if(Constants.kaztestLang)
-            tvInfo.setText("Стоимость:  ");
-            else tvInfo.setText("Бағасы:  ");
+            tvInfo.setText(getActivity().getResources().getString(R.string.tvPrice)+"");
             if(!isPriced) layPrice.setVisibility(View.GONE);
             btnOK.setOnClickListener(new View.OnClickListener() {
                 @Override

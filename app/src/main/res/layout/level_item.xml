@@ -33,7 +33,7 @@
             android:layout_marginLeft="95dp"
             android:layout_gravity="center"
             android:elevation="4dp"
-            android:background="@color/colorWhite2"
+            android:background="@color/colorWhite"
             android:layout_marginTop="10dp"
             android:scaleType="centerInside"
             android:id="@+id/imgStatus" />

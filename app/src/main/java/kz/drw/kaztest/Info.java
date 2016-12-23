@@ -2,11 +2,10 @@ package kz.drw.kaztest;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -25,8 +24,9 @@ import kz.drw.kaztest.utils.MyRequest;
 
 public class Info extends Fragment {
 
-        TextView tvRegular, tvTheme;
-        String regularKZ="", regularRu="";
+        TextView tvRegular,tvTheme;
+        String regular="", regularRu="";
+        WebView web;
     public Info() {
     }
 
@@ -39,21 +39,17 @@ public class Info extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view  = inflater.inflate(R.layout.fragment_regulations, container, false);
+        View view  = inflater.inflate(R.layout.fragment_regulations2, container, false);
         Constants.isTest=false;
-        tvRegular = (TextView) view.findViewById(R.id.tvRegular);
-        tvRegular.setVisibility(View.GONE);
-        tvTheme = (TextView) view.findViewById(R.id.tvTheme);
-        tvTheme.setText("Информация");
+        web = (WebView) view.findViewById(R.id.web);
         Constants.Show_ProgressDialog(getActivity(),getResources().getString(R.string.wait));
         Thread myThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                GetRegular();
+            GetRegular();
             }
         });
         myThread.start();
-
 
         return  view;
 
@@ -67,22 +63,18 @@ public class Info extends Fragment {
                     if (response != null) {
 
                         try {
-                            regularKZ = String.valueOf(response.getString("aboutkz"));
-                            regularRu = String.valueOf(response.getString("aboutru"));
-                            regularKZ = regularKZ.replace("&nbsp;","");
-                            regularKZ = regularKZ.replace("\n\n","\n");
-                            regularRu = regularRu.replace("\n\n","\n");
-                            regularRu = regularRu.replace("&nbsp;","");
-                            regularKZ = String.valueOf(Html.fromHtml(regularKZ));
-                            regularRu = String.valueOf(Html.fromHtml(regularRu));
+                            if(Constants.kaztestLang)
+                            regular = String.valueOf(response.getString("aboutkz"));
+                            else
+                            regular = String.valueOf(response.getString("aboutru"));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        regular = regular.replace("\n\n","\n");
+                        regular = regular.replace("&nbsp;","");
+                        web.loadDataWithBaseURL(null, regular,"text/html", "UTF-8", null);
                         Constants.Hide_ProgressDialog();
-                        if(Constants.kaztestLang==true)
-                        tvRegular.setText(regularKZ);
-                        else  tvRegular.setText(regularRu);
-                        tvRegular.setVisibility(View.VISIBLE);
                     }
                 }
             }, new Response.ErrorListener() {

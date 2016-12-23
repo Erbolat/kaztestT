@@ -50,6 +50,7 @@ public class Constants {
     public static boolean isRating=false;
     public static boolean canpas = false;
     public static boolean isCORPUSB=false;
+    public static boolean isCORPUSA=false;
 
 
     // CHECK EDITTEXT IS EMPTY   TODO:  Constants.isEmpty(editText);

@@ -2,6 +2,7 @@ package kz.drw.kaztest;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sharedpreferences;
     public static String userID="";
     String username="";
-     TextView tvExit, tvName ;
+     TextView tvExit;
+    static  TextView tvName ;
     CircleImageView avatar;
     View headerView;
     String myLogin="", myPassword="";
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity
             tvExit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(isOnline()){
                     sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.clear().commit();
@@ -193,7 +196,8 @@ public class MainActivity extends AppCompatActivity
                             DELETE_PUSH();
                         }
                     });
-                    myThread.start();
+                    myThread.start(); }
+                    else Toast.makeText(MainActivity.this, getResources().getString(R.string.connectInet), Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -238,6 +242,27 @@ public class MainActivity extends AppCompatActivity
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle("");
         getSupportActionBar().setTitle(title);
+    }
+    public  void setName(String title){
+        if(!title.equals("")) {
+        String[] titles = title.split(" ");
+            if(titles.length>0) {
+                if(titles.length==1) {
+                    lastname=titles[0];
+                }
+                if(titles.length==2) {
+                    lastname=titles[0];
+                    name=titles[1];
+                }
+                if(titles.length==3) {
+                    lastname=titles[0];
+                    name=titles[1];
+                    patron=titles[2];
+                }
+            }
+            else lastname = title;
+        tvName.setText(lastname+"\n"+name+"\n"+patron+"");
+        }
     }
     @Override
     public void onBackPressed() {
@@ -332,7 +357,7 @@ public class MainActivity extends AppCompatActivity
             if(!Constants.isTest)
 
             ChangeLang();
-            else Toast.makeText(this, "Запрещено!", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
             return true;
         }
 

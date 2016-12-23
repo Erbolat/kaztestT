@@ -2,14 +2,10 @@ package kz.drw.kaztest;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,38 +16,47 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import kz.drw.kaztest.utils.AppController;
 import kz.drw.kaztest.utils.Constants;
-
-import static com.android.volley.VolleyLog.d;
+import kz.drw.kaztest.utils.MyRequest;
 
 
 public class Corpus extends Fragment {
 
     View view;
     ImageView imgBtnBack, imgBtnNext;
-    public  static  String [] questions, variant1, variant2, variant3, variant4, answers, myanswers, myvariants, laws, variants;
+    public  static  String [] questions, variant1, variant2, variant3, variant4, answers, myanswers, myvariants, laws, variants, mylaws, myIndexes;
     public static  Boolean[] wrongs, answered;
     ImageView img1, img2, img3, img4;
     TextView tvQuestion, tvVariant1,tvVariant2,tvVariant3,tvVariant4, tvCount, tvFullCount, tvLaw, tvA, tvB, tvC, tvD, tvSecond;
     LinearLayout lay1, lay2, lay3, lay4, layAll, layLaw, lay1var1, lay1var2, lay2var1, lay2var2, lay3var1, lay3var2, lay4var1, lay4var2;
     String selectingTest="";
-    static int currentQuestionID=0, countCorrect=0, countWrong=0, QuestionCount=0, currentLastID=0;
+    static int currentQuestionID=0, countWrong=0, QuestionCount=0, currentLastID=0;
     Boolean  isTraining=false, isWrong=false, isRest=false, isStart=false, isBack=false, isLast=false;
+    public  static Integer[] elementsOfLaws;
     Integer[] lastsQuestionIDs;
+    public static int countOfLaws,countCorrect=0;
     ScrollView scroll;
     float timer=60;
-    private  static  int restCount=0, lasts=0;
+    private  static  int restCount=0;
+    private  static int lasts=0;
+    public  static int[] myLawsCount;
     public  static String time="";
 
     Toast mToast;
@@ -237,7 +242,7 @@ public class Corpus extends Fragment {
 
     private void StartTimer() {
         final long minute = (long) (timer*60000);
-        final String[] zero = {""};
+        final String[] zero = {""},zero2 = {""},zero3 = {""};
         new CountDownTimer(minute, 1000) { // adjust the milli seconds here
 
             @SuppressLint("SetTextI18n")
@@ -245,23 +250,32 @@ public class Corpus extends Fragment {
                 zero[0]= String.valueOf(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 if(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))<10)
-                    zero[0] ="0"+(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                zero[0] ="0"+(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                zero2[0] = String.valueOf(TimeUnit.MILLISECONDS.toHours( millisUntilFinished));
+                if(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)<10) zero2[0] = "0"+String.valueOf(TimeUnit.MILLISECONDS.toHours( millisUntilFinished));
 
-                tvSecond.setText(""+String.format("%d : %d : %s",
-                        TimeUnit.MILLISECONDS.toHours( millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60),
-                        zero[0]));
+                zero3[0] = String.valueOf(TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60));
+                if( TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60)<10)
+                    zero3[0] = "0"+String.valueOf(TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60));
+                if(Constants.kaztestLang) {
+                tvSecond.setText(""+String.format("%s сағ %s мин %s ",
+                        zero2[0], zero3[0], zero[0])); }
+               else{
+                        tvSecond.setText(""+String.format("%s час %s мин %s ",
+                                zero2[0], zero3[0],zero[0]));
+                }
 
                 time =  TimeUnit.MILLISECONDS.toMinutes(  minute - millisUntilFinished)+":"+(TimeUnit.MILLISECONDS.toSeconds(minute - millisUntilFinished) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(minute - millisUntilFinished)));
             }
 
             public void onFinish() {
+                if(Constants.isTest){
                 if(!Constants.isResult)
-                {  startActivity(new Intent(getActivity(), Result.class).putExtra("right",countCorrect+"").putExtra("count",QuestionCount+""));
+                {  getActivity().startActivity(new Intent(getActivity(), Result.class).putExtra("right",countCorrect+"").putExtra("count",QuestionCount+""));
                     Constants.isTest=false;
-                }}
+                }}}
         }.start();
     }
 
@@ -428,11 +442,11 @@ public class Corpus extends Fragment {
         String query="";
         Constants.Show_ProgressDialog(getActivity(),getResources().getString(R.string.wait));
 
-        if(selectingTest.equals("1pr1"))  {query = Constants.CORPUSA_PROGRAMMA1+"language=false"; Constants.isCORPUSB=false; }
-        else if(selectingTest.equals("1pr2"))  { query = Constants.CORPUSA_PROGRAMMA2+"zakon="+getArguments().getString("zakon")+"&language="+Constants.kaztestLang; Constants.isCORPUSB=false;} //APR2
-        else if(selectingTest.equals("2pr1"))  {query = Constants.CORPUSB_PROGRAMMA1+"language="+Constants.kaztestLang;  timer = 110; Constants.isCORPUSB=true;}
-        else if(selectingTest.equals("2pr2"))  {query = Constants.CORPUSB_PROGRAMMA2+"language="+Constants.kaztestLang+"&dd=1"; timer = 100; Constants.isCORPUSB=true;}
-        else if(selectingTest.equals("2pr3")) { query = Constants.CORPUSB_PROGRAMMA3+"language="+Constants.kaztestLang+"&d=true"; timer = 80;Constants.isCORPUSB=true; }
+        if(selectingTest.equals("1pr1"))  {query = Constants.CORPUSA_PROGRAMMA1+"language=false"; Constants.isCORPUSB=false; Constants.isCORPUSA=true;  }
+        else if(selectingTest.equals("1pr2"))  { query = Constants.CORPUSA_PROGRAMMA2+"zakon="+getArguments().getString("zakon")+"&language="+Constants.kaztestLang; Constants.isCORPUSA=true;  Constants.isCORPUSB=false;} //APR2
+        else if(selectingTest.equals("2pr1"))  {query = Constants.CORPUSB_PROGRAMMA1+"language="+Constants.kaztestLang;  timer = 110; Constants.isCORPUSB=true; Constants.isCORPUSA=false; }
+        else if(selectingTest.equals("2pr2"))  {query = Constants.CORPUSB_PROGRAMMA2+"language="+Constants.kaztestLang+"&dd=1"; timer = 100; Constants.isCORPUSB=true; Constants.isCORPUSA=false; }
+        else if(selectingTest.equals("2pr3")) { query = Constants.CORPUSB_PROGRAMMA3+"language="+Constants.kaztestLang+"&d=true"; timer = 80;Constants.isCORPUSB=true;  Constants.isCORPUSA=false; }
         else { isTraining=true;
             Constants.isCORPUSB=false;
             layLaw.setVisibility(View.GONE);
@@ -442,7 +456,7 @@ public class Corpus extends Fragment {
             else Toast.makeText(getActivity(), getResources().getString(R.string.isNotAuthorization), Toast.LENGTH_SHORT).show();}
 
         Log.d("query!!",query);
-
+        if(Constants.isCORPUSB) {
         JsonArrayRequest req = new JsonArrayRequest(query,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -458,6 +472,7 @@ public class Corpus extends Fragment {
                             myvariants = new String[response.length()];
                             variants = new String[response.length()];
                             laws = new String[response.length()];
+
                             wrongs = new Boolean[response.length()];
                             answered = new Boolean[response.length()];
                             if(selectingTest.equals("1pr1") ||selectingTest.equals("1pr2")) timer = (float) (0.75*response.length());
@@ -484,7 +499,32 @@ public class Corpus extends Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            Set<String> set = new HashSet<String>();
+                            Set<Integer> setID = new HashSet<Integer>();
+                            Boolean[] bool =  new Boolean[laws.length];
+                            for (int i = 0; i < laws.length; i++) {
+                                bool[i]=contains(set,laws[i]);
+                                set.add(laws[i]);
+                                setID.add(i);
 
+                            }
+                            countOfLaws = set.size();
+                            mylaws = new String[countOfLaws];
+
+                           for(int h =0; h<mylaws.length; h++)
+                           {
+                               mylaws[h] = laws[h*15];
+                           }
+
+                            elementsOfLaws = new Integer[countOfLaws];
+                            for(int j=0; j<elementsOfLaws.length;j++)
+                                {    for(int i = 0; i<bool.length; i++){
+                                    if(!bool[i])
+                                    {  elementsOfLaws[j] = i;
+                                        j++;
+                                   }
+                                }
+                            }
                             Constants.Hide_ProgressDialog();
                             WriteTestStart();
                         }
@@ -505,7 +545,96 @@ public class Corpus extends Fragment {
             }
         });
         AppController.getInstance().addToRequestQueue(req);
+        }
+        else if(Constants.isCORPUSA) {
+                MyRequest jsonReq = new MyRequest(Request.Method.GET,
+                        query, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject responsed) {
+                        if (responsed != null) {
+                            JSONArray  response = null;
+                            JSONArray  lawResp = null;
+                            try {
 
+                              lawResp =  responsed.getJSONArray("info");
+                              countOfLaws = lawResp.length();
+                                mylaws = new String[countOfLaws];
+                                myLawsCount = new int[countOfLaws];
+                                myIndexes = new String[countOfLaws];
+                                for (int j = 0; j < countOfLaws; j++) {
+                                    JSONObject js2 = (JSONObject) lawResp.get(j);
+                                    mylaws[j] =  js2.getString("law");
+                                    myLawsCount[j] = js2.getInt("count");
+                                    myIndexes[j] = js2.getString("indexes");
+                                }
+                            response = responsed.getJSONArray("test");
+                            questions = new String[response.length()];
+                            variant1 = new String[response.length()];
+                            variant2 = new String[response.length()];
+                            variant3 = new String[response.length()];
+                            variant4 = new String[response.length()];
+                            answers = new String[response.length()];
+                            myanswers = new String[response.length()];
+                            myvariants = new String[response.length()];
+                            variants = new String[response.length()];
+                            laws = new String[response.length()];
+
+                            wrongs = new Boolean[response.length()];
+                            answered = new Boolean[response.length()];
+                            if(selectingTest.equals("1pr1") ||selectingTest.equals("1pr2")) timer = (float) (0.75*response.length());
+                            Arrays.fill(wrongs, true);
+                            Arrays.fill(answered, false);
+                            Arrays.fill(myvariants, "-");
+                            tvFullCount.setText(response.length()+"");
+                            QuestionCount = response.length();
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject js = (JSONObject) response.get(i);
+                                    questions[i] = js.getString("question");
+                                    variant1[i] = js.getString("answer1");
+                                    variant2[i] = js.getString("answer2");
+                                    variant3[i] = js.getString("answer3");
+                                    variant4[i] = js.getString("answer4");
+                                    answers[i] = js.getString("right");
+                                    laws[i] = js.getString("law");
+                                    if(answers[i].equals(variant1[i])) variants[i]="A";
+                                    if(answers[i].equals(variant2[i])) variants[i]="B";
+                                    if(answers[i].equals(variant3[i])) variants[i]="C";
+                                    if(answers[i].equals(variant4[i])) variants[i]="D";
+                                }
+                             }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Constants.Hide_ProgressDialog();
+                            WriteTestStart();
+                    }
+
+                    else{
+                        Constants.Hide_ProgressDialog();
+                        Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.NoData), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity().getApplicationContext(),MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                        getActivity().finish();
+                    }}
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("", "Error: " + error.getMessage());
+                        Constants.Hide_ProgressDialog();
+                    }
+                });
+                AppController.getInstance().addToRequestQueue(jsonReq);
+
+        }
+
+
+    }
+    boolean contains(Set<String> s, String item) {
+        for(String toCompare: s) {
+            if(toCompare.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
     private void initResources() {
         tvQuestion = (TextView) view.findViewById(R.id.tvQuestion);

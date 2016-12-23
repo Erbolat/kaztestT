@@ -59,6 +59,8 @@
                 android:textAlignment="center"
                 android:id="@+id/tvTestName"
                 android:text="@string/finishTest"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textStyle="normal|bold" />
             <TextView
                 android:layout_width="match_parent"
@@ -78,13 +80,17 @@
                 android:elevation="2dp"
                 android:orientation="vertical"
                 android:background="@drawable/border">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/yourResult"
                     android:textSize="16sp"
                     android:textAlignment="center"
-                    android:textColor="#000" />
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:id="@+id/textView2" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,6 +98,8 @@
                     android:text="15"
                     android:layout_marginTop="10dp"
                     android:textSize="80sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:id="@+id/tvSumma"
                     android:textAlignment="center"
@@ -155,7 +163,34 @@
 
 
 
+<LinearLayout
+    android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:background="@drawable/border_blue"
+    android:id="@+id/layLaw"
+    android:paddingLeft="8dp"
+    android:orientation="horizontal">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNameLaw"
+        android:textSize="16sp"
+        android:layout_weight="1"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_weight="6"
+        android:paddingRight="4dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_little_down_triangular_arrow"
+        android:layout_height="wrap_content" />
+</LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

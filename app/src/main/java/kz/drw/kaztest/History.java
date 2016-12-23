@@ -200,6 +200,25 @@ public class History extends Fragment {
             }
             return monStr;
         }
+        public  static String  setDateRus2(String month) {
+            int monthInt = Integer.parseInt(month);
+            String monStr="";
+            switch (monthInt) {
+                case 1:    monStr="Январь"; break;
+                case 2:    monStr="Февраль"; break;
+                case 3:    monStr="Март"; break;
+                case 4:    monStr="Апрель"; break;
+                case 5:    monStr="Май"; break;
+                case 6:    monStr="Июнь"; break;
+                case 7:    monStr="Июль"; break;
+                case 8:    monStr="Август"; break;
+                case 9:    monStr="Сентябрь"; break;
+                case 10:    monStr="Октябрь"; break;
+                case 11:    monStr="Ноябрь"; break;
+                case 12:    monStr="Декабрь"; break;
+            }
+            return monStr;
+        }
         public static String setDateKaz(String month) {
             int monthInt = Integer.parseInt(month);
             String monStr="";
@@ -213,9 +232,28 @@ public class History extends Fragment {
                 case 7:    monStr="шілде"; break;
                 case 8:    monStr="тамыз"; break;
                 case 9:    monStr="қыркүйек"; break;
-                case 10:    monStr="қазаг"; break;
+                case 10:    monStr="қазан"; break;
                 case 11:    monStr="қараша"; break;
                 case 12:    monStr="желтоқсан"; break;
+            }
+            return monStr;
+        }
+        public static String setDateKaz2(String month) {
+            int monthInt = Integer.parseInt(month);
+            String monStr="";
+            switch (monthInt) {
+                case 1:    monStr="Қаңтар"; break;
+                case 2:    monStr="Ақпан"; break;
+                case 3:    monStr="Наурыз"; break;
+                case 4:    monStr="Сәуір"; break;
+                case 5:    monStr="Мамыр"; break;
+                case 6:    monStr="Маусым"; break;
+                case 7:    monStr="Шілде"; break;
+                case 8:    monStr="Тамыз"; break;
+                case 9:    monStr="Қыркүйек"; break;
+                case 10:    monStr="Қазан"; break;
+                case 11:    monStr="Қараша"; break;
+                case 12:    monStr="Желтоқсан"; break;
             }
             return monStr;
         }

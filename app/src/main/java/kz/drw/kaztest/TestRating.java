@@ -23,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import kz.drw.kaztest.utils.AppController;
@@ -54,7 +56,7 @@ public class TestRating extends AppCompatActivity {
         isWrong=false; Constants.isCORPUSB=false;
         Constants.isTest=true;
         Constants.isResult = false;
-        Constants.isRating = true;
+        Constants.isRating = true;  Constants.isCORPUSA=false;
         countCorrect=0;
         initResources();
         StartTesting();
@@ -221,9 +223,9 @@ public class TestRating extends AppCompatActivity {
     }
 
     private void StartTimer() {
-        timer =110;
-        final long minute = timer*60000;
-        final String[] zero = {""};
+        timer=110;
+        final long minute = (long) (timer*60000);
+        final String[] zero = {""},zero2 = {""},zero3 = {""};
         new CountDownTimer(minute, 1000) { // adjust the milli seconds here
 
             @SuppressLint("SetTextI18n")
@@ -233,11 +235,23 @@ public class TestRating extends AppCompatActivity {
                 if(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))<10)
                     zero[0] ="0"+(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                zero2[0] = String.valueOf(TimeUnit.MILLISECONDS.toHours( millisUntilFinished));
+                if(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)<10) zero2[0] = "0"+String.valueOf(TimeUnit.MILLISECONDS.toHours( millisUntilFinished));
 
-                tvSecond.setText(""+String.format("%d : %d : %s",
-                        TimeUnit.MILLISECONDS.toHours( millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60),
-                        zero[0]));
+                zero3[0] = String.valueOf(TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60));
+                if( TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60)<10)
+                    zero3[0] = "0"+String.valueOf(TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished)-(TimeUnit.MILLISECONDS.toHours( millisUntilFinished)*60));
+                if(Constants.kaztestLang) {
+                    tvSecond.setText(""+String.format("%s сағ %s мин %s ",
+                            zero2[0], zero3[0], zero[0])); }
+                else{
+                    tvSecond.setText(""+String.format("%s час %s мин %s ",
+                            zero2[0], zero3[0],zero[0]));
+                }
+
+                time =  TimeUnit.MILLISECONDS.toMinutes(  minute - millisUntilFinished)+":"+(TimeUnit.MILLISECONDS.toSeconds(minute - millisUntilFinished) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(minute - millisUntilFinished)));
+
 
                 Corpus.time =  TimeUnit.MILLISECONDS.toMinutes(  minute - millisUntilFinished)+":"+(TimeUnit.MILLISECONDS.toSeconds(minute - millisUntilFinished) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(minute - millisUntilFinished)));
@@ -453,7 +467,32 @@ public class TestRating extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            Set<String> set = new HashSet<String>();
+                            Set<Integer> setID = new HashSet<Integer>();
+                            Boolean[] bool =  new Boolean[Corpus.laws.length];
+                            for (int i = 0; i < Corpus.laws.length; i++) {
+                                bool[i]=contains(set,Corpus.laws[i]);
+                                set.add(Corpus.laws[i]);
+                                setID.add(i);
 
+                            }
+                            Corpus.countOfLaws = set.size();
+                            Corpus.mylaws = new String[Corpus.countOfLaws];
+
+                            for(int h =0; h<Corpus.mylaws.length; h++)
+                            {
+                                Corpus.mylaws[h] = Corpus.laws[h*15];
+                            }
+
+                            Corpus.elementsOfLaws = new Integer[Corpus.countOfLaws];
+                            for(int j=0; j<Corpus.elementsOfLaws.length;j++)
+                            {    for(int i = 0; i<bool.length; i++){
+                                if(!bool[i])
+                                {  Corpus.elementsOfLaws[j] = i;
+                                    j++;
+                                }
+                            }
+                            }
                             Constants.Hide_ProgressDialog();
                             WriteTestStart();
                         }
@@ -475,6 +514,15 @@ public class TestRating extends AppCompatActivity {
         });
         AppController.getInstance().addToRequestQueue(req);
 
+    }
+
+    boolean contains(Set<String> s, String item) {
+        for(String toCompare: s) {
+            if(toCompare.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void initResources() {

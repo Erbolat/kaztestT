@@ -27,6 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_height="116dp"
         android:src="@drawable/prof"
+        android:background="@drawable/prof"
         app:civ_border_width="1dp"
         android:scaleType="centerCrop"
         android:layout_marginBottom="8dp"

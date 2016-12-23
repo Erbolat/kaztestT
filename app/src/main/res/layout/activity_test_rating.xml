@@ -101,6 +101,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvSecond"
             android:textAlignment="viewEnd"
+            android:layout_gravity="right"
+            android:gravity="right"
             android:textColor="@color/colorGreen"
             tools:ignore="RtlCompat"
             android:textStyle="normal|bold"

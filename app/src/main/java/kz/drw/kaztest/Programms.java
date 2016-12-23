@@ -303,6 +303,7 @@ private  void GetList(){
             img.setTag(position);
             tvNumber.setText(position+1+"");
             tvVariant.setText(titles[position]);
+            Log.e("aaa",titles[position]);
             if(!checks[position]) img.setImageDrawable(getResources().getDrawable(R.drawable.circle_blue));
             else img.setImageDrawable(getResources().getDrawable(R.drawable.check));
             final View finalConvertView = convertView;
@@ -383,8 +384,9 @@ private  void GetList(){
 //                list.setLayoutParams(mParam);
 //                list.setLayoutParams(layoutParams);
                 layCorpusA.setVisibility(View.VISIBLE);
-
+                if(!Constants.kaztestLang)
                 tvLawCount.setText("Cумма: "+5*info.length+" тг");
+                else   tvLawCount.setText("Сомасы: "+5*info.length+" тг");
                 tvLawCountText.append(" "+info.length);
 
                 Lists listAdapter = new Lists(getActivity(), info);
@@ -479,7 +481,7 @@ private  void GetList(){
             tvLaw = (TextView) convertView.findViewById(R.id.tvLaw);
             tvSumma = (TextView) convertView.findViewById(R.id.tvSumma);
             tvLaw.setText(titles[position]+"");
-
+//
             return  convertView;
         }
 
