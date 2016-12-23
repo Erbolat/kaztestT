@@ -64,6 +64,7 @@ public class Levels extends Fragment {
                              Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.listview, container, false);
         list = (ListView) view.findViewById(R.id.list1);
+        mylvl=1; count=1;
         Bundle bundle = getArguments();
         if(bundle!=null) {
             LevelLawID = getArguments().getString("id");
@@ -79,7 +80,7 @@ public class Levels extends Fragment {
                     public void onResponse(String response) {
 
                         if(response.equals("null"))
-                        { mylvl = 1;
+                        {   mylvl = 1;
                             isPriced = new Boolean[count];
                             Arrays.fill(isPriced, true);
                             ListAdapter listAdapter = new ListAdapter((AppCompatActivity) getActivity(), count);
@@ -106,6 +107,7 @@ public class Levels extends Fragment {
                                 e.printStackTrace();
                             }
                         }
+                        Log.e("mylvlll", mylvl+"");
                     }
                 },
                 new Response.ErrorListener() {
@@ -161,7 +163,6 @@ public class Levels extends Fragment {
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-
             if (inflater == null)
                 inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (convertView == null)
@@ -172,12 +173,12 @@ public class Levels extends Fragment {
             int mPosition=position%5;
             btnLevel.setText(position+1+ " "+activity.getResources().getString(R.string.level));
 
-            if(position+1<=mylvl)
-            imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kul));
-            else
-            imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kulyp));
+//            if(position+1<=mylvl)
+//            imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kul));
+//            else
+//            imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kulyp));
 
-            if(mylvl>1) {
+//             if(mylvl>1) {
                 if(position+1<mylvl)
                 {   imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.check));
                     btnLevel.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -192,10 +193,12 @@ public class Levels extends Fragment {
                       btnLevel.setTextColor(getResources().getColor(R.color.colorBlack));
                     isPriced[position] = true;
                        btnLevel.setBackground(getResources().getDrawable(drEmpty[mPosition]));}
-            }
-            else {imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kulyp));
-                btnLevel.setTextColor(getResources().getColor(R.color.colorBlack));
-                btnLevel.setBackground(getResources().getDrawable(drEmpty[mPosition]));}
+//            }
+//            else {
+//                 imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.kulyp));
+//                btnLevel.setTextColor(getResources().getColor(R.color.colorBlack));
+//                btnLevel.setBackground(getResources().getDrawable(drEmpty[mPosition]));
+//             }
 
             btnLevel.setOnClickListener(new View.OnClickListener() {
                 @Override
