@@ -241,7 +241,6 @@ public class Corpus extends Fragment {
     }
 
     private void StartTimer() {
-        timer=1;
         final long minute = (long) (timer*60000);
         final String[] zero = {""},zero2 = {""},zero3 = {""};
         new CountDownTimer(minute, 1000) { // adjust the milli seconds here
