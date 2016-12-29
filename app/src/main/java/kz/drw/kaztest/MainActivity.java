@@ -244,7 +244,9 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle(title);
     }
     public  void setName(String title){
+        patron="";
         if(!title.equals("")) {
+        title = title.replaceAll("  "," ");
         String[] titles = title.split(" ");
             if(titles.length>0) {
                 if(titles.length==1) {

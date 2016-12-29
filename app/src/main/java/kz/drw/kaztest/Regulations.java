@@ -75,6 +75,7 @@ public class Regulations extends Fragment {
                         regular = regular.replace("\n\n","\n");
                         regular = regular.replace("\r\n\r\n","\n");
                         regular = regular.replace("&nbsp;","");
+                        regular = regular.replace("принадлежат","\nпринадлежат");
                         web.loadDataWithBaseURL(null, regular,"text/html", "UTF-8", null);
                         Constants.Hide_ProgressDialog();
                     }

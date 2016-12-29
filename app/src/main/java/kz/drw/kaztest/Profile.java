@@ -211,7 +211,11 @@ public class Profile extends Fragment {
                 lastName="";
 
                 if(!tvName.getText().toString().equals(""))
-                {  fio = tvName.getText().toString().split(" ");
+                {
+                    String fio2 = tvName.getText().toString();
+                    fio2 = fio2.replaceAll("  "," ");
+                    fio = fio2.split(" ");
+
                     if(fio.length<2) Toast.makeText(getActivity(), getResources().getString(R.string.setNameSurname), Toast.LENGTH_SHORT).show();
                 else {
                         if(isCity){

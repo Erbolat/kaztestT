@@ -70,6 +70,7 @@ public class Result extends AppCompatActivity {
     String duration="", dateFinish="";
     int width=0,columsCount=0,origColumsCount=0, last=0, row=0, wrongs=0;
     String[] myLaws2;
+    public static int thisPos=0;
     public  static  String[] myIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class Result extends AppCompatActivity {
         for(int i=0; i<Corpus.mylaws.length; i++) {
             myLaws2[i] = (i+1)+". "+Corpus.mylaws[i];
         }
+        thisPos=0;
         Constants.isResult=true;
         initTime();
         initResources();
@@ -90,7 +92,7 @@ public class Result extends AppCompatActivity {
         if(Constants.kaztestLang) tvLang.append(" қазақ тілі");
         else tvLang.append(" русский язык");
 
-        initTable(-1,0);
+        initTable(-1,thisPos);
         layLaw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +141,7 @@ public class Result extends AppCompatActivity {
     private void setAlertDialog() {
         final Dialog dialog = new Dialog(Result.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.listview);
+        dialog.setContentView(R.layout.listvieww);
 //        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
 //        layoutParams.x = 20; // right margin
 //        layoutParams.y = 30; // top margin
@@ -152,8 +154,8 @@ public class Result extends AppCompatActivity {
 //        dialog.getWindow().setAttributes(layoutParams2);
         ListView list = (ListView) dialog.findViewById(R.id.list1);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Result.this, R.layout.textview3, R.id.text, myLaws2);
-        list.setAdapter(adapter);
+        Lists lists = new Lists(Result.this, myLaws2);
+        list.setAdapter(lists);
         dialog.show();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -161,6 +163,7 @@ public class Result extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tvNameLaw.setText(Corpus.mylaws[position]);
                 initTable(oldPosition,position);
+                thisPos = position;
                 dialog.cancel();
                 dialog.dismiss();
 
@@ -510,7 +513,7 @@ public class Result extends AppCompatActivity {
         tvVariant3.setText(Corpus.variant3[questionID]);
         tvVariant4.setText(Corpus.variant4[questionID]);
         if(!Constants.isCORPUSA)
-        tvQuestion.setText(questionID+". "+Corpus.questions[questionID]);
+        tvQuestion.setText((questionID+1)+". "+Corpus.questions[questionID]);
         else   tvQuestion.setText((questionID+1)+". "+Corpus.questions[questionID]);
 
 
@@ -575,7 +578,56 @@ public class Result extends AppCompatActivity {
         finish();
     }
 
+    static class Lists extends BaseAdapter {
+        private Activity activity;
+        private LayoutInflater inflater;
+        TextView  tvText,tvSumma;
+        String[] titles;
+        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
+        public Lists(Activity activity, String[] titles) {
+            this.activity = activity;
+            this.titles = titles;
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, final ViewGroup parent) {
+
+            if (inflater == null)
+                inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (convertView == null)
+                convertView = inflater.inflate(R.layout.textview3, null);
+            if (imageLoader == null)
+                imageLoader = AppController.getInstance().getImageLoader();
+            tvText = (TextView) convertView.findViewById(R.id.text);
+            tvText.setText(titles[position]);
+            if(position==thisPos)
+                tvText.setTextColor(activity.getResources().getColor(R.color.colorGreen));
+            else
+            tvText.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+
+            return  convertView;
+        }
+
+
+
+    }
     private void initResources() {
         this.tvTestName= (TextView) findViewById(R.id.tvTestName);
         this.tvSumma= (TextView) findViewById(R.id.tvSumma);
