@@ -211,7 +211,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void setForgot() {
-        Log.d("!!username","7"+username);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.REPAIR_PASS+"7"+username,
                 new Response.Listener<String>() {
                     @Override

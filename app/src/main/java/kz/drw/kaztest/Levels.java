@@ -107,7 +107,7 @@ public class Levels extends Fragment {
                                 e.printStackTrace();
                             }
                         }
-                        Log.e("mylvlll", mylvl+"");
+
                     }
                 },
                 new Response.ErrorListener() {

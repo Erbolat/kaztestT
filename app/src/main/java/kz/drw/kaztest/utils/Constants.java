@@ -51,6 +51,7 @@ public class Constants {
     public static boolean canpas = false;
     public static boolean isCORPUSB=false;
     public static boolean isCORPUSA=false;
+    public  static  int ratingID=0;
 
 
     // CHECK EDITTEXT IS EMPTY   TODO:  Constants.isEmpty(editText);

@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,9 +54,10 @@ import static kz.drw.kaztest.Profile.oldPass;
 public  class Programms extends Fragment {
 
     View view;
-
+    public static  String [] info2;
     public  static int program = 0;
    public static String corpus="";
+    static int type =1;
     LinearLayout layPr1, layPr2, layPr3;
     ListView list;
     public static String [] titlesRus, titlesKaz;
@@ -95,6 +97,7 @@ public  class Programms extends Fragment {
             public void onClick(View view) {
                 dlg = new DialogInfo();
                 program=1;   minBall = 95;
+
                 dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                 dlg.show(getActivity().getSupportFragmentManager(), "dlg1");
             }
@@ -213,9 +216,7 @@ private  void GetList(){
                                     }
                                     for(int i=0; i<d.length-1; i++)
                                     { lawsStr+=d[i];
-                                        Log.d("%i  = %s "+i,d[i]+"");
                                     }
-                                    Log.d("lawsStr ",lawsStr);
                                     dlg = new DialogInfo();
                                     program=4;
                                     dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
@@ -303,7 +304,6 @@ private  void GetList(){
             img.setTag(position);
             tvNumber.setText(position+1+"");
             tvVariant.setText(titles[position]);
-            Log.e("aaa",titles[position]);
             if(!checks[position]) img.setImageDrawable(getResources().getDrawable(R.drawable.circle_blue));
             else img.setImageDrawable(getResources().getDrawable(R.drawable.check));
             final View finalConvertView = convertView;
@@ -346,15 +346,23 @@ private  void GetList(){
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             if(Programms.program==1)
-                info = getResources().getStringArray(R.array.priceProg1);
-            else if(Programms.program==2)
-                info = getResources().getStringArray(R.array.priceProg2);
-            else if(Programms.program==3) info = getResources().getStringArray(R.array.priceProg3);
+            { info = getResources().getStringArray(R.array.priceProg1_1);
+                info2 = getResources().getStringArray(R.array.priceProg1_2);
+            }
+            else if(Programms.program==2) {
+                info = getResources().getStringArray(R.array.priceProg2_1);
+                info2 = getResources().getStringArray(R.array.priceProg2_2);
+            }
+            else if(Programms.program==3) {
+                info = getResources().getStringArray(R.array.priceProg3_1);
+                info2 = getResources().getStringArray(R.array.priceProg3_2);
+            }
             else {
                 info = lawsNames;
 
             }
             if(program!=4) {
+            type=1;
             v = inflater.inflate(R.layout.listview, null);
             list = (ListView) v.findViewById(R.id.list1);
             lay = (LinearLayout) v.findViewById(R.id.lay);
@@ -364,10 +372,11 @@ private  void GetList(){
             tvLawCount = (TextView) v.findViewById(R.id.tvLawCount);
             tvLawCountText = (TextView) v.findViewById(R.id.tvLawCountText);
             lay.setVisibility(View.VISIBLE);
-                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(),R.layout.textview2, R.id.text, info);
+                Lists listAdapter = new Lists(getActivity(), info);
                 list.setAdapter(listAdapter);
             }
             else {
+                type=0;
                 v = inflater.inflate(R.layout.listview_new, null);
                 ListViewMaxHeight listMax = (ListViewMaxHeight) v.findViewById(R.id.list1);
                 lay = (LinearLayout) v.findViewById(R.id.lay);
@@ -384,9 +393,11 @@ private  void GetList(){
 //                list.setLayoutParams(mParam);
 //                list.setLayoutParams(layoutParams);
                 layCorpusA.setVisibility(View.VISIBLE);
+                String sum = 5*info.length+" тг";
+                sum =  "<font color='#ef6b78'>"+sum+"</font>";
                 if(!Constants.kaztestLang)
-                tvLawCount.setText("Cумма: "+5*info.length+" тг");
-                else   tvLawCount.setText("Сомасы: "+5*info.length+" тг");
+                tvLawCount.setText(Html.fromHtml("Cумма: " + sum));
+                else tvLawCount.setText(Html.fromHtml("Сомасы: " + sum));
                 tvLawCountText.append(" "+info.length);
 
                 Lists listAdapter = new Lists(getActivity(), info);
@@ -474,13 +485,24 @@ private  void GetList(){
 
             if (inflater == null)
                 inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (convertView == null)
+            if (convertView == null)  {
+                if(type==0)
                 convertView = inflater.inflate(R.layout.alert_price_corpus_a, null);
+                else
+                convertView = inflater.inflate(R.layout.alert_price_corpus_b, null);
+            }
             if (imageLoader == null)
                 imageLoader = AppController.getInstance().getImageLoader();
             tvLaw = (TextView) convertView.findViewById(R.id.tvLaw);
             tvSumma = (TextView) convertView.findViewById(R.id.tvSumma);
+            if(type==0)
             tvLaw.setText(titles[position]+"");
+            else {
+                tvLaw.setText(titles[position]+" "+info2[position]);
+                if(position==6)
+                    tvLaw.setText(Html.fromHtml(titles[position]+" "+"<font color='#ef6b78'>"+info2[position]+"</font>"));
+
+            }
 //
             return  convertView;
         }

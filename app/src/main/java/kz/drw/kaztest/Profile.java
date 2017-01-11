@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -90,6 +91,7 @@ public class Profile extends Fragment {
     View view;
     Bitmap rotatedBMP=null;
     EditTextView tvName,tvPhone;
+    String photo="";
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     TextView tvBirth, tvCity, tvSchool;
     CircleImageView ava;
@@ -178,7 +180,14 @@ public class Profile extends Fragment {
         layAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Thread myThread2 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
                         Crop.pickImage(getContext(), Profile.this);
+                    }
+                });
+                myThread2.start();
+
                     }
 
 
@@ -271,7 +280,6 @@ public class Profile extends Fragment {
     }
 
 
-
     DatePickerDialog.OnDateSetListener myCallBack = new DatePickerDialog.OnDateSetListener() {
 
         public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -335,7 +343,9 @@ public class Profile extends Fragment {
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
             base64 = encoded;
             Constants.Show_ProgressDialog(getActivity(), getResources().getString(R.string.wait));
-            SetAva();
+             SetAva();
+
+
 
 
 
@@ -358,8 +368,10 @@ public class Profile extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.e("ffa22","qqq");
                         Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-                      Constants.Hide_ProgressDialog();
+//                        ((MainActivity) getActivity()).setAvatar("1");
+                        Constants.Hide_ProgressDialog();
                     }
                 },
                 new Response.ErrorListener() {
@@ -770,6 +782,27 @@ public class Profile extends Fragment {
         }
 
 
+    }
+    class TestAsync extends AsyncTask<Void, Integer, String>
+    {
+
+
+        protected void onPreExecute (){
+
+        }
+
+        protected String doInBackground(Void...arg0) {
+            return null;
+
+        }
+
+        protected void onProgressUpdate(Integer...a){
+
+        }
+
+        protected void onPostExecute(String result) {
+
+        }
     }
 }
 

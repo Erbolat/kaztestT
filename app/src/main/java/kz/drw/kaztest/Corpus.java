@@ -455,7 +455,7 @@ public class Corpus extends Fragment {
                 query = Constants.TREN_SELECT_LAW+"page=1&zakonid=5&userid="+MainActivity.userID;   //SELECT TEST
             else Toast.makeText(getActivity(), getResources().getString(R.string.isNotAuthorization), Toast.LENGTH_SHORT).show();}
 
-        Log.d("query!!",query);
+
         if(Constants.isCORPUSB) {
         JsonArrayRequest req = new JsonArrayRequest(query,
                 new Response.Listener<JSONArray>() {

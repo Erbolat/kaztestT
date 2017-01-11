@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,6 +43,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.FirebaseApp;
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity
                 myLogin = sharedpreferences.getString("login","");
                 myPassword = sharedpreferences.getString("password","");
                 if(isOnline()) {
+                    GetRatingGos2();
                     Thread myThread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -188,7 +191,7 @@ public class MainActivity extends AppCompatActivity
                     sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.clear().commit();
-                    lastname="";name="";patron="";userID="";
+                    lastname="";name="";patron="";userID="";photo="";
                     tvExit.setVisibility(View.INVISIBLE);
                     Thread myThread = new Thread(new Runnable() {
                         @Override
@@ -210,7 +213,33 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+    public static void GetRatingGos2() {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, Constants.GET_RATING_GOS+"month=null&year=null&userid="+MainActivity.userID+"&page=1", null, new Response.Listener<JSONObject>() {
 
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            Constants.canpas = response.getBoolean("canpass");
+                            Constants.ratingID = response.getInt("addratingid");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        AppController.getInstance().addToRequestQueue(jsObjRequest);
+    }
     private void DELETE_PUSH() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.DELETE_PUSH+userID+"&device="+FirebaseInstanceId.getInstance().getToken(),
@@ -266,6 +295,19 @@ public class MainActivity extends AppCompatActivity
         tvName.setText(lastname+"\n"+name+"\n"+patron+"");
         }
     }
+//    public  void setAvatar(String photos){
+////        Log.e("sfdsf","fdsfdsfdsf");
+////        Thread myThread1 = new Thread(new Runnable() {
+////            @Override
+////            public void run() {
+////                GetProfileRes();
+////            }
+////        });
+////        myThread1.start();
+//
+//
+//
+//    }
     @Override
     public void onBackPressed() {
         Constants.isTest=false;
@@ -278,6 +320,36 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void GetProfileRes() {
+        MyRequest jsonReq = new MyRequest(Request.Method.GET,
+                Constants.PROFILE+userID, null, new Response.Listener<JSONObject>() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response != null) {
+                    try {
+                        photo = response.getString("photo");
+                        if(!photo.equals("")) {
+                            photo = photo.replace("~","");
+                            photo = "http://www.kaztest.com"+photo;
+                            avatar.setImageUrl(photo,imageLoader);
+//                            avatar.setImageUrl("http://www.kaztest.com"+photo, imageLoader);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+                Constants.Hide_ProgressDialog();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(jsonReq);
+    }
     private void GetProfile() {
         MyRequest jsonReq = new MyRequest(Request.Method.GET,
                 Constants.PROFILE+userID, null, new Response.Listener<JSONObject>() {

@@ -102,9 +102,6 @@ public class Result extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!Constants.isRating)
-                setResultat();
-                else setResultatRating();
                 startActivity(new Intent(Result.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 finish();
             }
@@ -112,9 +109,6 @@ public class Result extends AppCompatActivity {
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!Constants.isRating)
-                setResultat();
-                else setResultatRating();
                 startActivity(new Intent(Result.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 finish();
             }
@@ -136,6 +130,10 @@ public class Result extends AppCompatActivity {
             else   tvSumma.setTextColor(getResources().getColor(R.color.colorGreen));
             }
         }
+
+        if(!Constants.isRating)
+            setResultat();
+        else setResultatRating();
     }
 
     private void setAlertDialog() {
@@ -181,11 +179,15 @@ public class Result extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size); //
         width = size.x;
-        String zero="", zero2="";
+        String zero="", zero2="",zero3="";
         String[] times = Corpus.time.split(":");
+        int hours=Integer.parseInt(times[0])/60;
+        if(hours<10) zero3="0";
+        if(hours>=10 && hours<20) zero3="1";
+        if(hours>=20) zero3="2";
         if(Integer.parseInt(times[0])<10) zero="0";
         if(Integer.parseInt(times[1])<10) zero2="0";
-        duration = zero+times[0]+":"+zero2+times[1];
+        duration = zero3 + hours+":"+zero+times[0]+":"+zero2+times[1];
     }
 
     private void initTable(int remView , int position) {
@@ -392,12 +394,11 @@ public class Result extends AppCompatActivity {
     }
 
     private void setResultatRating() {
-        if(Constants.canpas) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SET_RESULT_RATING,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.e("aaa1111",response);
+
                         }
                     },
                     new Response.ErrorListener() {
@@ -417,9 +418,9 @@ public class Result extends AppCompatActivity {
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String, String>();
                     params.put("userid",MainActivity.userID+"");
-                    params.put("ratingid","1");
+                    params.put("ratingid",Constants.ratingID+"");
                     params.put("date",dateFinish+" 0:00:00");
-                    params.put("time",duration+":00");
+                    params.put("time",duration);
                     params.put("col",getIntent().getStringExtra("count"));
                     params.put("rightcol",Corpus.countCorrect+"");
                     params.put("wrongcol",Integer.parseInt(getIntent().getStringExtra("count"))-Corpus.countCorrect+"");
@@ -429,7 +430,7 @@ public class Result extends AppCompatActivity {
             };
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
-  }
+
   }
 
     private void setResultat() {
@@ -472,7 +473,6 @@ public class Result extends AppCompatActivity {
     }
 
     private void GetAnswer(int questionID) {
-        Log.e("questyion", questionID+"");
 
         final Dialog dialog = new Dialog(Result.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -571,9 +571,7 @@ public class Result extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!Constants.isRating)
-        setResultat();
-        else setResultatRating();
+
         startActivity(new Intent(Result.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         finish();
     }

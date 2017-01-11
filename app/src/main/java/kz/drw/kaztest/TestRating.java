@@ -57,7 +57,7 @@ public class TestRating extends AppCompatActivity {
         Constants.isTest=true;
         Constants.isResult = false;
         Constants.isRating = true;  Constants.isCORPUSA=false;
-        countCorrect=0;
+        Corpus.countCorrect=0;
         initResources();
         StartTesting();
         lay1.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class TestRating extends AppCompatActivity {
                     Corpus.answered[currentQuestionID]=true;
                     if ( Corpus.answers[currentQuestionID].equals( Corpus.variant1[currentQuestionID])) {
                         Corpus.myanswers[currentQuestionID]= Corpus.variant1[currentQuestionID];
-                        countCorrect++;
+                        Corpus.countCorrect++;
                     }
                     else {
                         Corpus.myanswers[currentQuestionID]= Corpus.variant1[currentQuestionID];
@@ -94,7 +94,7 @@ public class TestRating extends AppCompatActivity {
                     Corpus.myvariants[currentQuestionID]="B";
                     if ( Corpus.answers[currentQuestionID].equals( Corpus.variant2[currentQuestionID])) {
                         Corpus.myanswers[currentQuestionID]= Corpus.variant2[currentQuestionID];
-                        countCorrect++;
+                        Corpus.countCorrect++;
                     }
                     else {
                         Corpus.myanswers[currentQuestionID]= Corpus.variant2[currentQuestionID];
@@ -115,7 +115,7 @@ public class TestRating extends AppCompatActivity {
                     Corpus.myvariants[currentQuestionID] = "C";
                     if ( Corpus.answers[currentQuestionID].equals( Corpus.variant3[currentQuestionID])) {
                         Corpus.myanswers[currentQuestionID] =  Corpus.variant3[currentQuestionID];
-                        countCorrect++;
+                        Corpus.countCorrect++;
                     } else {
                         Corpus.myanswers[currentQuestionID] =  Corpus.variant3[currentQuestionID];
                         Corpus.wrongs[currentQuestionID] = false;
@@ -136,7 +136,7 @@ public class TestRating extends AppCompatActivity {
                     Corpus.myvariants[currentQuestionID] = "D";
                     if ( Corpus.answers[currentQuestionID].equals( Corpus.variant4[currentQuestionID])) {
                         Corpus.myanswers[currentQuestionID] =  Corpus.variant4[currentQuestionID];
-                        countCorrect++;
+                        Corpus.countCorrect++;
                     } else {
                         Corpus. myanswers[currentQuestionID] =  Corpus.variant4[currentQuestionID];
                         Corpus.wrongs[currentQuestionID] = false;
@@ -162,7 +162,7 @@ public class TestRating extends AppCompatActivity {
                 }
                 else {
                     if(restCount==0)
-                    { startActivity(new Intent(TestRating.this, Result.class).putExtra("right",countCorrect+"").putExtra("count",QuestionCount+""));
+                    { startActivity(new Intent(TestRating.this, Result.class).putExtra("right",Corpus.countCorrect+"").putExtra("count",QuestionCount+""));
                         finish();
                         Constants.isTest=false;}
                     else {
@@ -223,7 +223,7 @@ public class TestRating extends AppCompatActivity {
     }
 
     private void StartTimer() {
-        timer=110;
+        timer=110 ;
         final long minute = (long) (timer*60000);
         final String[] zero = {""},zero2 = {""},zero3 = {""};
         new CountDownTimer(minute, 1000) { // adjust the milli seconds here

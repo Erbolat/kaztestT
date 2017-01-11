@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:background="#f5f5f5"
@@ -24,7 +24,7 @@
             android:id="@+id/tvLawCountText"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorBlack"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,18 +33,38 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:textSize="16sp"
-            android:textStyle="bold"
             android:id="@+id/tvLawCount"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorBlack"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:text="Рейтинг"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tvText2"
+        android:visibility="gone"
+        android:textColor="@color/colorAccent"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_below="@+id/layCorpusA"
+        android:layout_below="@+id/tvText2"
         android:divider="@null"
-        android:id="@+id/list1"></ListView>
+        android:id="@+id/list1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/list1"
+        android:id="@+id/tvText"
+        android:visibility="gone"
+        android:textColor="#000"/>
     <android.support.design.widget.FloatingActionButton
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -61,7 +81,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone"
-        android:layout_below="@+id/list1"
+        android:layout_below="@+id/tvText"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:id="@+id/lay">

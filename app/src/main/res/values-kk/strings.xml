@@ -88,31 +88,78 @@
     <string name="corpusA">А корпусы</string>
     <string name="corpusB">Б корпусы</string>
 
-    <string-array name="priceProg1">
-        <item>Заңдардың саны: 9 заң</item>
-        <item>Санаты: А-1,А-2,А-3,А-4,В-1,В-2,В-3,В-4,С-1,С-2,С-3,С-О-1, С-О-2,С-R-1,D-1,D-2,D-3,D-O-1,D-O-2,E-1,E-2</item>
-        <item>Сұрақтардың жалпы саны: 135 сұрақ</item>
-        <item>Тесттен өтудің төменгі балы: 95 балл</item>
-        <item>Тестті тапсыруға берілетін уақыт: 1 сағат, 50 минут</item>
-        <item>Тестті тапсыру құны: 25 теңге</item>
+    <string-array name="priceProg1_1">
+        <item>Бағдарлама: </item>
+        <item>Заңдардың саны: </item>
+        <item>Санаты: </item>
+        <item>Сұрақтардың жалпы саны: </item>
+        <item>Тесттен өтудің төменгі балы: </item>
+        <item>Тестті тапсыруға берілетін уақыт: </item>
+        <item>Тестті тапсыру құны: </item>
+    </string-array>
+    <string-array name="priceProg1_2">
+        <item> №1 </item>
+        <item> 9 заң</item>
+        <item> А-1, А-2, А-3, А-4, В-1, В-2, В-3, В-4, С-1, С-2, С-3, С-О-1, С-О-2, С-R-1, D-1, D-2, D-3, D-O-1, D-O-2, E-1, E-2</item>
+        <item> 135 сұрақ</item>
+        <item> 95 балл</item>
+        <item> 1 сағат, 50 минут</item>
+        <item> 25 теңге</item>
     </string-array>
 
-    <string-array name="priceProg2">
-        <item>Заңдардың саны: 8 заң</item>
-        <item>Санаты: B-5,C-4,C-5,C-O-3,C-O-4,C-O-5,C-O-6,C-R-2,C-R- 3, C-R-4,D-4,D-5,D-O-3,D-O-4,D-O-5,D-O-6,E-3,E-R-1, E-R-2,E-R-3,E-G-1,E-G-2</item>
-        <item>Сұрақтардың жалпы саны: 120 сұрақ</item>
-        <item>Тесттен өтудің төменгі балы: 72 балл</item>
-        <item>Тестті тапсыруға берілетін уақыт: 1 сағат, 40 минут</item>
-        <item>Тестті тапсыру құны: 15 теңге</item>
+    <string-array name="priceProg2_1">
+        <item>Бағдарлама: </item>
+        <item>Заңдардың саны:</item>
+        <item>Санаты: </item>
+        <item>Сұрақтардың жалпы саны: </item>
+        <item>Тесттен өтудің төменгі балы: </item>
+        <item>Тестті тапсыруға берілетін уақыт:</item>
+        <item>Тестті тапсыру құны: </item>
     </string-array>
 
-    <string-array name="priceProg3">
-        <item>Заңдардың саны: 6 заң</item>
-        <item>Санаты: C-R-5,E-4,E-5,E-R-4,E-R-5,E-G-3,E-G-4</item>
-        <item>Сұрақтардың жалпы саны: 90 сұрақ</item>
-        <item>Тесттен өтудің төменгі балы: 45 балл</item>
-        <item>Тестті тапсыруға берілетін уақыт: 1 сағат, 20 минут</item>
-        <item>Тестті тапсыру құны: 10 теңге</item>
+    <string-array name="priceProg2_2">
+        <item> №2 </item>
+        <item> 8 заң</item>
+        <item> B-5, C-4, C-5, C-O-3, C-O-4, C-O-5, C-O-6, C-R-2, C-R-3, C-R-4, D-4, D-5, D-O-3, D-O-4, D-O-5, D-O-6, E-3, E-R-1, E-R-2, E-R-3, E-G-1, E-G-2</item>
+        <item> 120 сұрақ</item>
+        <item> 72 балл</item>
+        <item> 1 сағат, 40 минут</item>
+        <item> 15 теңге</item>
+    </string-array>
+
+    <string-array name="priceProg3_1">
+        <item>Бағдарлама: </item>
+        <item>Заңдардың саны: </item>
+        <item>Санаты: </item>
+        <item>Сұрақтардың жалпы саны: </item>
+        <item>Тесттен өтудің төменгі балы: </item>
+        <item>Тестті тапсыруға берілетін уақыт:</item>
+        <item>Тестті тапсыру құны:</item>
+    </string-array>
+
+    <string-array name="priceProg3_2">
+        <item> №3 </item>
+        <item> 6 заң</item>
+        <item> C-R-5, E-4, E-5, E-R-4, E-R-5, E-G-3, E-G-4</item>
+        <item> 90 сұрақ</item>
+        <item> 45 балл</item>
+        <item>1 сағат, 20 минут</item>
+        <item> 10 теңге</item>
+    </string-array>
+
+    <string-array name="priceRating1">
+        <item>Бағдарлама: </item>
+        <item>Заңдардың саны:</item>
+        <item>Сұрақтардың жалпы саны: </item>
+        <item>Тестті тапсыруға берілетін уақыт:</item>
+        <item>Тестті тапсыру құны: </item>
+    </string-array>
+    <string-array name="priceRating2">
+        <item> №1 </item>
+        <item> 9 заң</item>
+        <item> 135 сұрақ</item>
+        <item> 1 сағат, 50 минут</item>
+        <item> Тегін (айына 1 рет) </item>
     </string-array>
 
     <string name="laws">Барлық заңдар: </string>
@@ -135,7 +182,7 @@
     <string name="isNotAuthorization">Сіз әлі кірмедіңіз</string>
     <string name="isNotLeveled">Бұл деңгейге жетпедіңіз</string>
     <string name="NoData">Мәліметтер жоқ</string>
-    <string name="alertTraining">Назар аударыңыз! Сұраққа дұрыс жауап берілмеген жағдайда осы деңгейді қайта өтуіңізге тура келеді</string>
+    <string name="alertTraining">Назар аударыңыз! Сұраққа дұрыс жауап берілмеген жағдайда, осы деңгейді қайта өтуіңізге тура келеді.</string>
     <string name="connectInet">Интернетті қосыңыз</string>
     <string name="isNotAnswered">Сіз әлі жауап бермедіңіз</string>
     <string name="isFailTraining">Сіз бұл деңгейден өте алмадыңыз</string>
@@ -156,4 +203,5 @@
     <string name="suraktan">сұрақтан</string>
     <string name="last">күн қалды</string>
     <string name="disabled">Рұқсат етілмейді!</string>
+    <string name="priceInfo">1-3 орынғы қолданушыларға Премиум аккаунт беріледі. </string>
 </resources>

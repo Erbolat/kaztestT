@@ -73,6 +73,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
     public  static  int myrating=0;
     static  TextView tvID, tvName, tvTimes, tvBall, Number;
     static Activity act;
+    public static  Boolean canpass=true;
     public static int thisMonth, thisYear,thisDay;
     public  static Boolean firstOpen=false;
     public  static  LinearLayout layMyRating, layMonYear;
@@ -101,8 +102,9 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
         arrList = new ArrayList<>();
         Number.setText(page+"");
 
-        if(!MainActivity.userID.equals(""))
-        GetRatingGos(thisMonth+"",thisYear+"",page);
+        if(!MainActivity.userID.equals("")){
+            GetRatingGos2();
+        GetRatingGos(thisMonth+"",thisYear+"",page);}
         else Toast.makeText(act, getResources().getString(R.string.isNotAuthorization), Toast.LENGTH_SHORT).show();
         layMonYear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,14 +176,39 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
         tvMonYear = (TextView) view.findViewById(R.id.tvMonYear);
         layMonYear = (LinearLayout) view.findViewById(R.id.layMonYear);
     }
+    public static void GetRatingGos2() {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, Constants.GET_RATING_GOS+"month=null&year=null&userid="+MainActivity.userID+"&page=1", null, new Response.Listener<JSONObject>() {
 
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            Constants.canpas = response.getBoolean("canpass");
+                            Constants.ratingID = response.getInt("addratingid");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        AppController.getInstance().addToRequestQueue(jsObjRequest);
+    }
 
     public static void GetRatingGos(String month, String year, final int page) {
          Constants.Show_ProgressDialog(act, act.getResources().getString(R.string.wait));
          arrList = new ArrayList<>();
          myrating = 0;
          JSONObject jsObj=null;
-         Log.e("ff111",Constants.GET_RATING_GOS+"month="+month+"&year="+year+"&page="+page);
          JsonObjectRequest jsObjRequest = new JsonObjectRequest
                  (Request.Method.GET, Constants.GET_RATING_GOS+"month="+month+"&year="+year+"&userid="+MainActivity.userID+"&page="+page, null, new Response.Listener<JSONObject>() {
 
@@ -193,7 +220,6 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
                              if(!response.getString("myrating").equals("null")) {
                                  myrating = response.getInt("myrating");
                                  myrating = myrating+1;
-                                 Constants.canpas = response.getBoolean("canpass");
                                  if (myrating == 0) {
                                      layMyRating.setVisibility(View.GONE);
                                      tvID.setText("");
@@ -223,6 +249,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
 
                              }
                              myPhoto = response.getString("photo");
+
                              if(!myPhoto.equals("null")) {
                                  imgMyAva.setVisibility(View.VISIBLE);
                                  myPhoto = myPhoto.replace("~","");
@@ -231,7 +258,6 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
                              else {
                                  imgMyAva.setBackground(act.getResources().getDrawable(R.drawable.social));
                              }
-
                              JSONArray jsArray  = response.getJSONArray("rating");
                             if(jsArray.length()>0) {
                                 for (int i = 0; i < jsArray.length(); i++) {
@@ -414,7 +440,7 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
             monthPicker.setMaxValue(12);
             monthPicker.setValue(thisMonth);
 
-            int year = thisYear;
+            int year = 2016;
             yearPicker.setMinValue(year);
             yearPicker.setMaxValue(MAX_YEAR);
             yearPicker.setValue(year);

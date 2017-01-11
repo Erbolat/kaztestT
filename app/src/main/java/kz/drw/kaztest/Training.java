@@ -308,7 +308,6 @@ public class Training extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("ff",response);
                         OpenLevel();
 
                     }
@@ -467,7 +466,7 @@ public class Training extends Fragment {
 //                Toast.makeText(getActivity(), getResources().getString(R.string.alertTraining), Toast.LENGTH_LONG).show();
                 if(!selectingTest.equals("")) {
                 query = Constants.TREN_SELECT_LAW+"page="+lvl+"&zakonid="+selectingTest+"&userid="+MainActivity.userID+"&language="+Constants.kaztestLang;   //SELECT TEST
-                    Log.d("query",query);
+
                     if(!query.equals("")) GetTest(query);
                      }
                 else Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.isNotAuthorization), Toast.LENGTH_SHORT).show();
@@ -596,7 +595,7 @@ public class Training extends Fragment {
 
                 }
         else {
-            Log.d("countCorrect", countCorrect+"");
+
             startActivity(new Intent(getActivity(), Result.class).putExtra("right",countCorrect+"").putExtra("count",QuestionCount+""));
             Constants.isTest=false;
         }

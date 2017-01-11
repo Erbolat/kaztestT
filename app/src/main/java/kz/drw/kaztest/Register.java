@@ -2,7 +2,9 @@ package kz.drw.kaztest;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -36,6 +38,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +65,7 @@ public class Register extends AppCompatActivity {
     Switch switchAgree;
     TextView editDay, editMonth, editYear, tvRule;
     String School = "";
+    String userID="";
     int myYear = 2000, myMonth=0, myDay = 1;
     int DIALOG_DATE = 1;
     Button btnCity, btnSchool, btnRegister;
@@ -76,6 +81,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        FirebaseApp.initializeApp(Register.this);
         GetRules();
         Constants.Show_ProgressDialog(Register.this, getResources().getString(R.string.wait));
         initResources();
@@ -407,7 +413,6 @@ public class Register extends AppCompatActivity {
                             idSchool=school_ids[i];
 
                     }
-                    Log.d("ddd",idSchool+"");
                     dialog.cancel();
                     dialog.dismiss(); }
             }
@@ -445,7 +450,6 @@ public class Register extends AppCompatActivity {
             new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    Log.d("ddds", response.toString());
 
                     try {
                         city_names = new String[response.length()];
@@ -489,7 +493,7 @@ public class Register extends AppCompatActivity {
                             Constants.Hide_ProgressDialog();
                         }
                         else {
-                            Toast.makeText(Register.this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+
 //                            SharedPreferences sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = sharedpreferences.edit();
 //                            editor.putString("u_id", response+"");
@@ -497,8 +501,10 @@ public class Register extends AppCompatActivity {
 //                            editor.putString("password", editPassword.getText().toString());
 //                            editor.putString("username",editName.getText().toString());
 //                            editor.commit();
-                            Constants.Hide_ProgressDialog();
-                            startActivity(new Intent(Register.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                            setLogin();
+
+
+//                            startActivity(new Intent(Register.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                         }
                     }
                 },
@@ -535,6 +541,88 @@ public class Register extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+void  setLogin(){
+    StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGIN,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    if(response.equals("0"))  {
+                        Toast.makeText(Register.this, getResources().getString(R.string.errorLoginOrPass), Toast.LENGTH_SHORT).show();
+                        Constants.Hide_ProgressDialog();
+                    }
+                    else if(response.equals("-1"))
+                    {
+                        Toast.makeText(Register.this, getResources().getString(R.string.userBlocked), Toast.LENGTH_SHORT).show();
+                        Constants.Hide_ProgressDialog();
+                    }
+                    else {
+                        userID = response;
+                        Toast.makeText(Register.this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("u_id", response+"");
+                        editor.putString("password", editPassword.getText().toString());
+                        editor.putString("username","+"+getNumber);
+                        editor.putString("login","7"+getNumber);
+                        editor.putString("devic", FirebaseInstanceId.getInstance().getToken()+"");
+                        editor.commit();
+                        ADD_PUSH();
+                    }
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Constants.Hide_ProgressDialog();
+                    Toast.makeText(Register.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+            }){
+        @Override
+        protected Map<String,String> getParams(){
+            Map<String,String> params = new HashMap<String, String>();
+            params.put("username","7"+getNumber);
+            params.put("password",editPassword.getText().toString());
+            return params;
+        }
+
+    };
+    RequestQueue requestQueue = Volley.newRequestQueue(this);
+    requestQueue.add(stringRequest);
+}
+
+    private void ADD_PUSH() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_PUSH,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Constants.Hide_ProgressDialog();
+                        startActivity(new Intent(Register.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Constants.Hide_ProgressDialog();
+                        Toast.makeText(Register.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("userid",userID+"");
+                params.put("type","false");
+                params.put("device1", FirebaseInstanceId.getInstance().getToken()+"");
+                return params;
+            }
+
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
 
 
     private void initResources() {
