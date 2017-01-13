@@ -72,6 +72,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 
 import kz.drw.kaztest.utils.AppController;
@@ -371,6 +372,7 @@ public class Profile extends Fragment {
                         Log.e("ffa22","qqq");
                         Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
 //                        ((MainActivity) getActivity()).setAvatar("1");
+                        Constants.isChangedImage=1;
                         Constants.Hide_ProgressDialog();
                     }
                 },

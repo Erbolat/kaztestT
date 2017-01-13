@@ -52,6 +52,7 @@ public class Constants {
     public static boolean isCORPUSB=false;
     public static boolean isCORPUSA=false;
     public  static  int ratingID=0;
+    public  static  int isChangedImage=0;
 
 
     // CHECK EDITTEXT IS EMPTY   TODO:  Constants.isEmpty(editText);

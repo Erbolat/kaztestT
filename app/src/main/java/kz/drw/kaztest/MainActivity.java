@@ -333,6 +333,8 @@ public class MainActivity extends AppCompatActivity
                             photo = photo.replace("~","");
                             photo = "http://www.kaztest.com"+photo;
                             avatar.setImageUrl(photo,imageLoader);
+                            Log.d("ffff","1111112");
+                            Constants.isChangedImage=0;
 //                            avatar.setImageUrl("http://www.kaztest.com"+photo, imageLoader);
                         }
 
@@ -569,6 +571,12 @@ public class MainActivity extends AppCompatActivity
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(Constants.isChangedImage==1)GetProfileRes();
+
     }
 
 }
