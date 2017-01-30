@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -28,11 +30,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,10 +48,12 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.Checksum;
 
 import kz.drw.kaztest.utils.AppController;
 import kz.drw.kaztest.utils.Constants;
 import kz.drw.kaztest.utils.ListViewMaxHeight;
+import kz.drw.kaztest.utils.MyRequest;
 
 import static kz.drw.kaztest.Profile.newPass;
 import static kz.drw.kaztest.Profile.newPassRe;
@@ -55,10 +64,13 @@ public  class Programms extends Fragment {
 
     View view;
     public static  String [] info2;
+    public static  Boolean isOk = false;
     public  static int program = 0;
    public static String corpus="";
-    static int type =1;
+    static int type =1, amount = 0;
     LinearLayout layPr1, layPr2, layPr3;
+    int countChecks=0;
+    int lawID = 0;
     ListView list;
     public static String [] titlesRus, titlesKaz;
     Integer[] ids;
@@ -78,7 +90,7 @@ public  class Programms extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        corpus="";
+        corpus=""; amount=0;
         Bundle bundle = getArguments();
         if(bundle!=null) {
             corpus = getArguments().getString("select");
@@ -97,7 +109,8 @@ public  class Programms extends Fragment {
             public void onClick(View view) {
                 dlg = new DialogInfo();
                 program=1;   minBall = 95;
-
+                amount  = 25;
+                CheckTest(getActivity());
                 dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                 dlg.show(getActivity().getSupportFragmentManager(), "dlg1");
             }
@@ -107,6 +120,8 @@ public  class Programms extends Fragment {
             public void onClick(View view) {
                 dlg = new DialogInfo();
                 program=2;  minBall = 72;
+                amount = 15;
+                CheckTest(getActivity());
                 dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                 dlg.show(getActivity().getSupportFragmentManager(), "dlg2");
             }
@@ -115,7 +130,8 @@ public  class Programms extends Fragment {
             @Override
             public void onClick(View view) {
                 dlg = new DialogInfo();
-                program=3;       minBall = 45;
+                program=3;       minBall = 45; amount=10;
+                CheckTest(getActivity());
                 dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
                 dlg.show(getActivity().getSupportFragmentManager(), "dlg3");
             }
@@ -131,6 +147,29 @@ public  class Programms extends Fragment {
         return  view;
     }
 
+    private static void CheckTest(final Context context) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://api.kaztest.com/api/User/Oplata?userid="+MainActivity.userID+"&amount="+amount,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("true")) {
+                            isOk = true;
+                        }
+                        else{
+                            isOk = false;
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+            }
+        });
+        queue.add(stringRequest);
+
+    }
 private  void GetList(){
 
     Constants.Show_ProgressDialog(getActivity(),getResources().getString(R.string.wait));
@@ -157,26 +196,39 @@ private  void GetList(){
                           checks = new Boolean[titlesKaz.length];
                         Arrays.fill(checks, false);
                         fab.setVisibility(View.VISIBLE);
+                        amount=2;
+                        CheckTest(getActivity());
                         String[] laws;
                         if(Constants.kaztestLang==true) laws=titlesKaz;
                         else laws=titlesRus;
+
                         ListAdapterCorpusA listAdapter = new ListAdapterCorpusA((AppCompatActivity) getActivity(), laws, ids);
                          list.setAdapter(listAdapter);
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                int countChecks=0;
-                                int lawID = 0;
+
                                 for(int i=0; i<checks.length; i++) {
                                     if(checks[i]) {
                                         countChecks++;
                                         lawID=ids[i];
                                     }
                                 }
-                                if(countChecks>0)
-                                    OpenTestLevel(lawID);
+                                if(countChecks>0) {
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
 
+                                            if (isOk)
+                                                OpenTestLevel(lawID);
+                                             else
+                                                Toast.makeText(getActivity(), MainActivity.err, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }, 100);
+
+                                }
                                 else Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.isNotSelected), Toast.LENGTH_SHORT).show();
+
                             }
                         });
                     }
@@ -359,6 +411,8 @@ private  void GetList(){
             }
             else {
                 info = lawsNames;
+                amount=5*info.length;
+                CheckTest(getActivity());
 
             }
             if(program!=4) {
@@ -400,23 +454,36 @@ private  void GetList(){
                 else tvLawCount.setText(Html.fromHtml("Сомасы: " + sum));
                 tvLawCountText.append(" "+info.length);
 
+
                 Lists listAdapter = new Lists(getActivity(), info);
                 listMax.setAdapter(listAdapter);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        if(isOk) {
+                            OpenCorpus(lawsStr);
+                        }
+                        else   Toast.makeText(getActivity(),  MainActivity.err, Toast.LENGTH_SHORT).show();
                         Programms.dlg.dismiss();
-                        OpenCorpus(lawsStr);
+
                     }
-                }, 2000);
+                }, 100);
             }
             btnOK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(program!=4)
-                    OpenTest(Programms.program);
-//                    else OpenCorpus(lawsStr);
-                    Programms.dlg.dismiss();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(isOk) {
+                            OpenTest(Programms.program);
+                              }
+                            else   Toast.makeText(getActivity(),  MainActivity.err, Toast.LENGTH_SHORT).show();
+                            Programms.dlg.dismiss();
+                        }
+                    }, 100);
+
                 }
             });
             btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -427,11 +494,12 @@ private  void GetList(){
             });
             return v;
         }
+
         private void OpenTest(int selected) {
             Bundle bundle = new Bundle();
             Constants.Program = selected+"";
             bundle.putString("select", Programms.corpus+"pr"+selected);
-            Fragment fragment;
+            Fragment fragment=null;
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             fragment = new Corpus();
             fragment.setArguments(bundle);
@@ -443,8 +511,8 @@ private  void GetList(){
             Bundle bundle = new Bundle();
             bundle.putString("zakon", ids+"");
             bundle.putString("select", "1pr2");
-            Fragment fragment;
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment fragment=null;
+            FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
             fragment = new Corpus();
             fragment.setArguments(bundle);
             ft.replace(R.id.content_frame, fragment);

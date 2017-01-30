@@ -59,6 +59,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Oplata"
+            android:configChanges="locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".utils.CropImageActivity"
             android:configChanges="locale|layoutDirection"
             android:screenOrientation="portrait"

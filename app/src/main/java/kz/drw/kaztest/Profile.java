@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -95,6 +96,7 @@ public class Profile extends Fragment {
     String photo="";
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     TextView tvBirth, tvCity, tvSchool;
+    public  static Boolean isBacked = false;
     CircleImageView ava;
     String name="", lastname="", patron="", lastName="";
     public  static  String devic="";
@@ -104,6 +106,7 @@ public class Profile extends Fragment {
     String userID="", myBirth="", base64="", myCity="", mySchool="";
     Integer[] cityIds, schoolIds;
     Integer idCity=0, idSchool=0;
+    TextView tvPrice;
     int isPol =0 , old=0;
     int myYear = 2000, myMonth=0, myDay = 1;
     int DIALOG_DATE = 1;
@@ -194,6 +197,32 @@ public class Profile extends Fragment {
 
         });
 
+        btnPriced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayAdapter<String> listAdapter;
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.priced);
+                Button btnCont = (Button) dialog.findViewById(R.id.btnContinue);
+                final EditText edit = (EditText) dialog.findViewById(R.id.editSum);
+                final LinearLayout laySum = (LinearLayout) dialog.findViewById(R.id.laySum);
+                final WebView web = (WebView) dialog.findViewById(R.id.web);
+                dialog.show();
+                btnCont.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(!edit.getText().toString().equals("")) {
+                        startActivity(new Intent(getActivity().getApplicationContext(), Oplata.class).putExtra("amount",edit.getText().toString()));
+                            dialog.cancel();
+                            dialog.dismiss();}
+                        else Toast.makeText(getActivity().getApplicationContext(), getActivity().getResources().getString(R.string.fillEmpty), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
 //           layAvatar.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -267,6 +296,13 @@ public class Profile extends Fragment {
                     }
                 })
                 .show();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isBacked) {
+        GetProfile();
+        isBacked   =false;}
     }
 
     public void openApplicationSettings() {
@@ -577,6 +613,10 @@ public class Profile extends Fragment {
                             tvSchool.setText(response.getString("scholl")+"");
 
                         }
+                        if(!response.getString("Balance").equals("null"))
+                        {
+                            tvPrice.setText(response.getString("Balance")+" тг");
+                        }
                         if(!response.getString("Gender").equals("null"))
                         {
                             if(response.getBoolean("Gender")) {
@@ -682,6 +722,7 @@ public class Profile extends Fragment {
     }
     private void initResources() {
         tvBirth = (TextView) view.findViewById(R.id.tvBirth);
+        tvPrice = (TextView) view.findViewById(R.id.tvPrice);
         tvName = (EditTextView) view.findViewById(R.id.tvName);
         tvCity = (TextView) view.findViewById(R.id.tvCity);
         tvSchool = (TextView) view.findViewById(R.id.tvSchool);
@@ -691,6 +732,7 @@ public class Profile extends Fragment {
         btnSave = (Button) view.findViewById(R.id.btnSave);
         btnWomen = (Button) view.findViewById(R.id.btnWomen);
         btnMen = (Button) view.findViewById(R.id.btnMen);
+        btnPriced = (Button) view.findViewById(R.id.btnPriced);
         layAvatar = (LinearLayout) view.findViewById(R.id.layAvatar);
         ava = (CircleImageView) view.findViewById(R.id.profile_image);
     }

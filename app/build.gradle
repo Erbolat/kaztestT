@@ -16,8 +16,8 @@ android {
         applicationId "kz.drw.kaztest"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 42
-        versionName "2.1.5"
+        versionCode 44
+        versionName "2.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

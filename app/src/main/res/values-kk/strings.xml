@@ -204,4 +204,7 @@
     <string name="last">күн қалды</string>
     <string name="disabled">Рұқсат етілмейді!</string>
     <string name="priceInfo">1-3 орынғы қолданушыларға Премиум аккаунт беріледі. </string>
+    <string name="summa">Сомманы жазыңыз</string>
+    <string name="continu">ОК</string>
+    <string name="no_priced">Қаржы жеткіліксіз</string>
 </resources>

@@ -81,11 +81,13 @@ public class MainActivity extends AppCompatActivity
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     String[] languages= new String[]{"Қазақша","Русский"};
     public  static  String[] profNames ;
+    public  static  String err="";
     public  static Boolean isChanged=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppController.setLocale(this);
+        err =getResources().getString(R.string.no_priced);
         setContentView(R.layout.activity_main);
         profNames= getResources().getStringArray(R.array.profileStr);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

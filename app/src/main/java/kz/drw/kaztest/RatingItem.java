@@ -440,8 +440,8 @@ public class RatingItem extends Fragment implements DatePickerDialog.OnDateSetLi
             monthPicker.setMaxValue(12);
             monthPicker.setValue(thisMonth);
 
-            int year = 2016;
-            yearPicker.setMinValue(year);
+            int year = thisYear;
+            yearPicker.setMinValue(2016);
             yearPicker.setMaxValue(MAX_YEAR);
             yearPicker.setValue(year);
 

@@ -41,7 +41,7 @@ import kz.drw.kaztest.utils.SampleFragmentPagerAdapter;
 
 public class Rating extends AppCompatActivity {
     private PagerSlidingTabStrip tabsStrip;
-    private LinearLayout mTabsLinearLayout;
+    private LinearLayout mTabsLinearLayout, layTestStart;
     TextView tvTestStart;
     ImageButton imgBtnBack;
     public static DialogInf dlgInf;
@@ -59,6 +59,7 @@ public class Rating extends AppCompatActivity {
         thisDay = Integer.parseInt(dates[0]);
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
         tvTestStart = (TextView) findViewById(R.id.tvTestStart);
+        layTestStart = (LinearLayout) findViewById(R.id.layTestStart);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         setUpTabStrip();
@@ -95,9 +96,15 @@ public class Rating extends AppCompatActivity {
                 finish();
             }
         });
-        if(Constants.canpas) tvTestStart.setTextColor(getResources().getColor(R.color.colorAccent));
-        else tvTestStart.setTextColor(getResources().getColor(R.color.colorWhiter));
-        tvTestStart.setOnClickListener(new View.OnClickListener() {
+        if(Constants.canpas) {
+            layTestStart.setBackgroundColor(getResources().getColor(R.color.colorRed));
+            tvTestStart.setTextColor(getResources().getColor(R.color.colorWhite));
+        }
+        else {
+            tvTestStart.setTextColor(getResources().getColor(R.color.colorWhiter));
+            layTestStart.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        }
+        layTestStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!Constants.canpas) {
