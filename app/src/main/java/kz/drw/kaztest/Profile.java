@@ -81,6 +81,8 @@ import kz.drw.kaztest.utils.CircleImageView;
 import kz.drw.kaztest.utils.Constants;
 import kz.drw.kaztest.utils.Crop;
 import kz.drw.kaztest.utils.MyRequest;
+import kz.drw.kaztest.utils.epay.EpayActivity;
+import kz.drw.kaztest.utils.epay.MyActivity;
 
 import static kz.drw.kaztest.Profile.dlg1;
 import static kz.drw.kaztest.Profile.newPass;
@@ -187,7 +189,7 @@ public class Profile extends Fragment {
                 Thread myThread2 = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Crop.pickImage(getContext(), Profile.this);
+                        Crop.pickImage(getActivity(), Profile.this);
                     }
                 });
                 myThread2.start();
@@ -214,7 +216,8 @@ public class Profile extends Fragment {
                     public void onClick(View v) {
 
                         if(!edit.getText().toString().equals("")) {
-                        startActivity(new Intent(getActivity().getApplicationContext(), Oplata.class).putExtra("amount",edit.getText().toString()));
+                            GetBASE64(edit.getText().toString());
+//                        startActivity(new Intent(getActivity().getApplicationContext(), Oplata.class).putExtra("amount",edit.getText().toString()));
                             dialog.cancel();
                             dialog.dismiss();}
                         else Toast.makeText(getActivity().getApplicationContext(), getActivity().getResources().getString(R.string.fillEmpty), Toast.LENGTH_SHORT).show();
@@ -391,7 +394,25 @@ public class Profile extends Fragment {
 
         }
     }
+    private void GetBASE64(final String sum) {
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://kaztest.com/Mobileoplata/Sign?amount="+sum+"&userid="+MainActivity.userID,
+                new Response.Listener<String>() {
+                    @Override
+                        public void onResponse(String response) {
+                        Log.e("aaaa",response);
+                        startActivity(new Intent(getActivity(), EpayActivity.class).putExtra("base64",response));
 
+                        }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+            }
+        });
+        queue.add(stringRequest);
+
+    }
     private void SetAva() {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("UserId", MainActivity.userID+"");

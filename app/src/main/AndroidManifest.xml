@@ -73,6 +73,17 @@
             android:configChanges="locale|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".utils.epay.MyActivity"
+            android:configChanges="locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".utils.epay.EpayActivity"
+            android:configChanges="locale|layoutDirection"
+            android:screenOrientation="portrait"
+
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".utils.MyFirebaseMessagingService">
             <intent-filter>
