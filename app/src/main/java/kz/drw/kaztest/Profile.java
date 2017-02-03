@@ -216,11 +216,13 @@ public class Profile extends Fragment {
                     public void onClick(View v) {
 
                         if(!edit.getText().toString().equals("")) {
+                            if(Double.parseDouble(edit.getText().toString())>=200){
                             GetBASE64(edit.getText().toString());
 //                        startActivity(new Intent(getActivity().getApplicationContext(), Oplata.class).putExtra("amount",edit.getText().toString()));
                             dialog.cancel();
                             dialog.dismiss();}
-                        else Toast.makeText(getActivity().getApplicationContext(), getActivity().getResources().getString(R.string.fillEmpty), Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(getActivity().getApplicationContext(), getActivity().getResources().getString(R.string.minBalanceError), Toast.LENGTH_SHORT).show();
+                        } else Toast.makeText(getActivity().getApplicationContext(), getActivity().getResources().getString(R.string.fillEmpty), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -304,9 +306,17 @@ public class Profile extends Fragment {
     public void onResume() {
         super.onResume();
         if(isBacked) {
+            Log.e("ffffss","112323");
         GetProfile();
         isBacked   =false;}
     }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if(isBacked) {
+//        GetProfile();
+//        isBacked   =false;}
+//    }
 
     public void openApplicationSettings() {
         Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -636,7 +646,7 @@ public class Profile extends Fragment {
                         }
                         if(!response.getString("Balance").equals("null"))
                         {
-                            tvPrice.setText(response.getString("Balance")+" тг");
+                            tvPrice.setText("Баланс: "+response.getString("Balance")+" тг");
                         }
                         if(!response.getString("Gender").equals("null"))
                         {

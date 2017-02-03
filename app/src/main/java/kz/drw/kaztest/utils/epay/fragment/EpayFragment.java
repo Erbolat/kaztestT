@@ -56,7 +56,13 @@ public class EpayFragment extends Fragment {
 
         webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
+        webView.setPadding(0, 0, 0, 0);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(
                 new WebViewClient() {
                     @Override

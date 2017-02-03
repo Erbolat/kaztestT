@@ -208,4 +208,7 @@
     <string name="continu">ОК</string>
     <string name="no_priced">Қаржы жеткіліксіз</string>
     <string name="pay">Pay</string>
+    <string name="minBalance">Ең төменгі соммасы: 200 тг</string>
+    <string name="minBalanceError">Балансты толтырудың ең төменгі соммасы 200 тг </string>
+    <string name="fill_balance">Балансты толтыру</string>
 </resources>

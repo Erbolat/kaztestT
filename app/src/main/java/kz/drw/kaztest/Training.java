@@ -460,6 +460,7 @@ public class Training extends Fragment {
 
     private void StartTesting() {
             String query="";
+        layAll.setVisibility(View.GONE);
             isTraining=true;
                 layLaw.setVisibility(View.GONE);
 //                if(Integer.parseInt(lvl)>=Integer.parseInt(mylvl))
@@ -578,7 +579,7 @@ public class Training extends Fragment {
     private void WriteTestStart() {
         if(currentQuestionID<QuestionCount) {
 
-                    layAll.setVisibility(View.VISIBLE);
+
                     mToast.cancel();
                     lay1.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                     lay2.setBackgroundColor(getResources().getColor(R.color.colorWhite));
@@ -592,6 +593,7 @@ public class Training extends Fragment {
                     tvVariant2.setText(variant2[currentQuestionID]);
                     tvVariant3.setText(variant3[currentQuestionID]);
                     tvVariant4.setText(variant4[currentQuestionID]);
+            layAll.setVisibility(View.VISIBLE);
 
                 }
         else {

@@ -209,4 +209,7 @@
     <string name="continu">ОК</string>
     <string name="no_priced">Недостаточно средств</string>
     <string name="pay">Pay</string>
+    <string name="minBalance">Минимальная сумма: 200 тг</string>
+    <string name="minBalanceError">Минимальная сумма для пополнения баланса 200 тг</string>
+    <string name="fill_balance">Пополнить баланс</string>
 </resources>

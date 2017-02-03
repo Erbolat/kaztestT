@@ -269,10 +269,15 @@ private  void GetList(){
                                     for(int i=0; i<d.length-1; i++)
                                     { lawsStr+=d[i];
                                     }
-                                    dlg = new DialogInfo();
-                                    program=4;
-                                    dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-                                    dlg.show(getChildFragmentManager(), "dlg1");
+
+
+
+                                            dlg = new DialogInfo();
+                                            program=4;
+                                            dlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+                                            dlg.show(getChildFragmentManager(), "dlg1");
+
+
 
                                 }
                                 else Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.isNotSelected), Toast.LENGTH_SHORT).show();
@@ -468,7 +473,7 @@ private  void GetList(){
                         Programms.dlg.dismiss();
 
                     }
-                }, 100);
+                }, 2000);
             }
             btnOK.setOnClickListener(new View.OnClickListener() {
                 @Override

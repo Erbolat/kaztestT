@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,8 +32,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,22 +68,26 @@ import kz.drw.kaztest.utils.Constants;
 import kz.drw.kaztest.utils.LocaleHelper;
 import kz.drw.kaztest.utils.MyFirebaseInstanceIDService;
 import kz.drw.kaztest.utils.MyRequest;
+import kz.drw.kaztest.utils.epay.EpayActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public  static  Toolbar toolbar;
     AppBarLayout appbar;
     SharedPreferences sharedpreferences;
+    MenuInflater menuInflater;
     public static String userID="";
     String username="";
-     TextView tvExit;
-    static  TextView tvName ;
+    NavigationView navigationView;
+    TextView tvExit;
+    static  TextView tvName , tvBalance, tvAddBalance;
+    static  LinearLayout layBalance;
     CircleImageView avatar;
     View headerView;
     String myLogin="", myPassword="";
     public  static  String[] categ = new String[3];
     Drawable drawable=null;
-    static String lastname="",name="", patron="", photo="", language="";
+    static String lastname="",name="", patron="", photo="", balance="";
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     String[] languages= new String[]{"Қазақша","Русский"};
     public  static  String[] profNames ;
@@ -100,7 +110,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView= (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
@@ -122,15 +132,24 @@ public class MainActivity extends AppCompatActivity
     private  void AuthorizedOrNonAuthorized(){
         tvName= (TextView) headerView.findViewById(R.id.tvName);
         avatar = (CircleImageView) headerView.findViewById(R.id.prof);
-        tvExit = (TextView) headerView.findViewById(R.id.tvExit);
-        tvExit.setVisibility(View.INVISIBLE);
+        tvBalance = (TextView) headerView.findViewById(R.id.tvBalance);
+        tvAddBalance = (TextView) headerView.findViewById(R.id.tvAddBalance);
+        layBalance = (LinearLayout) headerView.findViewById(R.id.layBalance);
+        ImageView imgWrite = (ImageView) headerView.findViewById(R.id.imgWrite);
+//        tvExit = (TextView) headerView.findViewById(R.id.tvExit);
+//        tvExit.setVisibility(View.INVISIBLE);
+        layBalance.setVisibility(View.INVISIBLE);
+         imgWrite.setVisibility(View.INVISIBLE);
         sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
         if(sharedpreferences.getString("u_id","")!=null) {
             if(!sharedpreferences.getString("u_id","").equals("")) {
                 username = sharedpreferences.getString("username", "");
                 userID = sharedpreferences.getString("u_id", "");
+                navigationView.getMenu().findItem(R.id.exit).setVisible(true);
                 myLogin = sharedpreferences.getString("login","");
                 myPassword = sharedpreferences.getString("password","");
+                imgWrite.setVisibility(View.VISIBLE);
+                layBalance.setVisibility(View.VISIBLE);
                 if(isOnline()) {
                     GetRatingGos2();
                     Thread myThread = new Thread(new Runnable() {
@@ -149,11 +168,47 @@ public class MainActivity extends AppCompatActivity
                     });
                     myThread2.start();
                 }
-            } else tvExit.setVisibility(View.GONE);
+                else {
+                    layBalance.setVisibility(View.INVISIBLE);
+                    imgWrite.setVisibility(View.INVISIBLE);
+                    navigationView.getMenu().findItem(R.id.exit).setVisible(false);
+                }
+                layBalance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ArrayAdapter<String> listAdapter;
+                        final Dialog dialog = new Dialog(MainActivity.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.priced);
+                        Button btnCont = (Button) dialog.findViewById(R.id.btnContinue);
+                        final EditText edit = (EditText) dialog.findViewById(R.id.editSum);
+                        final LinearLayout laySum = (LinearLayout) dialog.findViewById(R.id.laySum);
+                        final WebView web = (WebView) dialog.findViewById(R.id.web);
+                        dialog.show();
+                        btnCont.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                if(!edit.getText().toString().equals("")) {
+                                    if(Double.parseDouble(edit.getText().toString())>=200){
+                                        GetBASE64(edit.getText().toString());
+//                        startActivity(new Intent(getActivity().getApplicationContext(), Oplata.class).putExtra("amount",edit.getText().toString()));
+                                        dialog.cancel();
+                                        dialog.dismiss();}
+                                    else Toast.makeText(MainActivity.this, getResources().getString(R.string.minBalanceError), Toast.LENGTH_SHORT).show();
+                                } else Toast.makeText(MainActivity.this, getResources().getString(R.string.fillEmpty), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+            else {layBalance.setVisibility(View.INVISIBLE);
+                navigationView.getMenu().findItem(R.id.exit).setVisible(false);}
         }
         else {
             tvName.setText(getResources().getString(R.string.enter));
-            tvExit.setVisibility(View.INVISIBLE);
+            layBalance.setVisibility(View.INVISIBLE);;
+            userID="";  navigationView.getMenu().findItem(R.id.exit).setVisible(false);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 avatar.setBackground(getResources().getDrawable(R.drawable.prof));
             }
@@ -162,59 +217,82 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(!userID.equals("")){
-                    Fragment fragment = new MyProfile();
-                    String title = "Профиль";
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        toolbar.setElevation(0);
-                        appbar.setElevation(0);
-                    }
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
-                    getSupportActionBar().setTitle("");
-                    getSupportActionBar().setTitle(title);
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
-
+                    if(isOnline()) {
+                        Fragment fragment = new MyProfile();
+                        String title = "Профиль";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            toolbar.setElevation(0);
+                            appbar.setElevation(0);
+                        }
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                        getSupportActionBar().setTitle("");
+                        getSupportActionBar().setTitle(title);
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        drawer.closeDrawer(GravityCompat.START);
+                    }else Toast.makeText(MainActivity.this, getResources().getString(R.string.connectInet), Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    tvExit.setVisibility(View.INVISIBLE);
+                    userID="";
+                    layBalance.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(MainActivity.this, Login.class));
                 }
             }
         });
 
-        if(!userID.equals("")) {
+//        if(!userID.equals("")) {
 
-            tvExit.setVisibility(View.VISIBLE);
-            tvExit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(isOnline()){
-                    sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.clear().commit();
-                    lastname="";name="";patron="";userID="";photo="";
-                    tvExit.setVisibility(View.INVISIBLE);
-                    Thread myThread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            DELETE_PUSH();
-                        }
-                    });
-                    myThread.start(); }
-                    else Toast.makeText(MainActivity.this, getResources().getString(R.string.connectInet), Toast.LENGTH_SHORT).show();
+//            tvExit.setVisibility(View.VISIBLE);
+//            tvExit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if(isOnline()){
+//                    sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedpreferences.edit();
+//                    editor.clear().commit();
+//                    lastname="";name="";patron="";userID="";photo="";
+//                    tvExit.setVisibility(View.INVISIBLE);
+//                    Thread myThread = new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            DELETE_PUSH();
+//                        }
+//                    });
+//                    myThread.start(); }
+//                    else Toast.makeText(MainActivity.this, getResources().getString(R.string.connectInet), Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
+//        }
+//        else {
+//            layBalance.setVisibility(View.GONE);
+//            tvName.setText(getResources().getString(R.string.enter));
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                avatar.setBackground(getResources().getDrawable(R.drawable.prof));
+//            }
+//        }
+   }
 
-                }
-            });
-        }
-        else {
-            tvExit.setVisibility(View.INVISIBLE);
-            tvName.setText(getResources().getString(R.string.enter));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                avatar.setBackground(getResources().getDrawable(R.drawable.prof));
+    private void GetBASE64(final String sum) {
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://kaztest.com/Mobileoplata/Sign?amount="+sum+"&userid="+MainActivity.userID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("bbbb",response);
+                        startActivity(new Intent(MainActivity.this, EpayActivity.class).putExtra("base64",response));
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
             }
-        }
+        });
+        queue.add(stringRequest);
+
     }
+
     public static void GetRatingGos2() {
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, Constants.GET_RATING_GOS+"month=null&year=null&userid="+MainActivity.userID+"&page=1", null, new Response.Listener<JSONObject>() {
@@ -294,7 +372,9 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             else lastname = title;
-        tvName.setText(lastname+"\n"+name+"\n"+patron+"");
+            if(!patron.equals(""))
+                tvName.setText(lastname+"\n"+name+"\n"+patron+"");
+            else  tvName.setText(lastname+"\n"+name);
         }
     }
 //    public  void setAvatar(String photos){
@@ -320,7 +400,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
     private void GetProfileRes() {
         MyRequest jsonReq = new MyRequest(Request.Method.GET,
@@ -368,6 +447,8 @@ public class MainActivity extends AppCompatActivity
                             name = response.getString("FirstName");
                         if(!response.getString("MiddleName").equals("null"))
                             patron = response.getString("MiddleName");
+                        if(!response.getString("Balance").equals("null"))
+                            balance = response.getString("Balance");
                         if(!response.getString("photo").equals("null"))
                             photo = response.getString("photo");
                         if(!photo.equals("")) {
@@ -375,7 +456,10 @@ public class MainActivity extends AppCompatActivity
                             avatar.setBackground(null);
                             avatar.setImageUrl("http://www.kaztest.com"+photo, imageLoader);
                         }
+                        if(!patron.equals(""))
                         tvName.setText(lastname+"\n"+name+"\n"+patron+"");
+                        else  tvName.setText(lastname+"\n"+name);
+                        if(!balance.equals("")) tvBalance.setText("Баланс: "+balance+" тг");
 
 
                     } catch (JSONException e) {
@@ -396,10 +480,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        getMenuInflater().inflate(R.menu.main, menu);
-
-
+        menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
         return true;
+
     }
     protected boolean isOnline() {
         String cs = Context.CONNECTIVITY_SERVICE;
@@ -417,6 +501,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         return true;
+
     }
 
     @Override
@@ -471,6 +556,22 @@ public class MainActivity extends AppCompatActivity
                 toolbar.setElevation(0);
                 appbar.setElevation(0);
             }
+        }
+        else if (id == R.id.exit) {
+            if(isOnline()){
+                sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.clear().commit();
+                lastname="";name="";patron="";userID="";photo="";
+                navigationView.getMenu().findItem(R.id.exit).setVisible(false);
+                Thread myThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DELETE_PUSH();
+                    }
+                });
+                myThread.start(); }
+            else Toast.makeText(MainActivity.this, getResources().getString(R.string.connectInet), Toast.LENGTH_SHORT).show();
         }
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -578,6 +679,11 @@ public class MainActivity extends AppCompatActivity
     public void onResume(){
         super.onResume();
         if(Constants.isChangedImage==1)GetProfileRes();
+
+        if(Profile.isBacked) {
+            Log.e("ffffss","112323");
+            GetProfile();
+            Profile.isBacked   =false;}
 
     }
 

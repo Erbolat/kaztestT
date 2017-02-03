@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import kz.drw.kaztest.Profile;
 import kz.drw.kaztest.R;
 import kz.drw.kaztest.utils.epay.fragment.EpayFragment;
 import kz.drw.kaztest.utils.epay.utils.EpayCallback;
@@ -101,6 +102,14 @@ public class EpayActivity extends FragmentActivity {
         transaction.replace(R.id.content, f);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        Profile.isBacked  = true;
+        super.onBackPressed();  // optional depending on your needs
+
     }
 
 }

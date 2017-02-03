@@ -14,6 +14,10 @@
             android:id="@+id/info"
             android:icon="@drawable/info"
             android:title="@string/info" />
+        <item
+            android:id="@+id/exit"
+            android:icon="@drawable/exitt"
+            android:title="@string/exit" />
 
     </group>
 
