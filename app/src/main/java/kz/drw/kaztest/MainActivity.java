@@ -321,11 +321,14 @@ public class MainActivity extends AppCompatActivity
         AppController.getInstance().addToRequestQueue(jsObjRequest);
     }
     private void DELETE_PUSH() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.DELETE_PUSH+userID+"&device="+FirebaseInstanceId.getInstance().getToken(),
+        sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.DELETE_PUSH+userID+"&device="+sharedpreferences.getString("devic",""),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        editor.clear().commit();
+                        lastname="";name="";patron="";userID="";photo="";
                         startActivity(new Intent(MainActivity.this, Login.class));
                         finish();
                     }
@@ -333,6 +336,8 @@ public class MainActivity extends AppCompatActivity
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        editor.clear().commit();
+                        lastname="";name="";patron="";userID="";photo="";
                         startActivity(new Intent(MainActivity.this, Login.class));
                         finish();
                     }
@@ -559,10 +564,6 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.exit) {
             if(isOnline()){
-                sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.clear().commit();
-                lastname="";name="";patron="";userID="";photo="";
                 navigationView.getMenu().findItem(R.id.exit).setVisible(false);
                 Thread myThread = new Thread(new Runnable() {
                     @Override
@@ -642,17 +643,13 @@ public class MainActivity extends AppCompatActivity
 
                         if(response.equals("0"))  {
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.errorLoginOrPass), Toast.LENGTH_SHORT).show();
-                            sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.clear().commit();
+
                             DELETE_PUSH();
+
                         }
                         else if(response.equals("-1"))
                         {
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.userBlocked), Toast.LENGTH_SHORT).show();
-                            sharedpreferences = getSharedPreferences(Constants.MY_PREF, Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.clear().commit();
                             DELETE_PUSH();
                         }
                     }
